@@ -442,6 +442,59 @@
       .blob{ animation:none !important; }
       .btn{ transition:none !important; }
     }
+
+    /* ============================================================
+       ✅ Mobile Fixes (بدون تغییر HTML و بدون دست زدن به کامنت‌ها)
+       ============================================================ */
+
+    /* جلوگیری از بیرون‌زدگی عناصر داخل grid/flex در موبایل */
+    .brand, .actions, .hero-inner, .card, .step { min-width: 0; }
+
+    /* خنثی کردن width: 200% که توی HTML دادی (فقط در موبایل/تبلت) */
+    @media (max-width: 980px){
+      .hero-inner > section.grid{
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    /* بهینه‌سازی چیدمان برای موبایل‌های کوچک */
+    @media (max-width: 520px){
+      body{ padding: 16px 12px 32px; }
+
+      .topbar{
+        border-radius: 18px;
+        padding: 10px 10px;
+        gap: 10px;
+      }
+
+      /* عنوان/لوگو و اکشن‌ها توی موبایل جمع‌وجورتر بشن */
+      .brand{ white-space: normal; }
+      .actions{ width: 100%; }
+
+      /* شمارش معکوس اگر طولانی شد، خط جدید بگیرد */
+      #countdown-pill{
+        width: 100%;
+      }
+
+      /* pill ها اگر طولانی شدند، نشکنند و از صفحه بیرون نزنند */
+      .hero-meta .pill{
+        white-space: normal;
+      }
+
+      /* دکمه ثبت‌نام روی موبایل تمام عرض و مرتب */
+      .hero-ctas{ width: 100%; }
+      .hero-ctas .btn{ width: 100%; }
+
+      /* فاصله‌ها کمی کمتر برای نظم بهتر */
+      .hero-inner{ padding: 18px; gap: 14px; }
+      .card-header{ padding: 16px 14px 12px; }
+      .card-body{ padding: 14px; }
+
+      /* جلوگیری از کش آمدن متن مرحله‌ها */
+      .step{ gap: 10px; }
+      .step p{ word-break: break-word; }
+    }
   </style>
 </head>
 
@@ -494,56 +547,56 @@
             </a>
           </div>
         </div>
-            <section class="grid" aria-label="اطلاعات و روند ثبت‌نام" style="width: 200% !important;">
-      <article class="card">
-        <div class="card-header">
-          <h2>روند ثبت‌نام</h2>
-          <!-- <span class="pill" id="status-pill"><i class="fa-solid fa-circle-info"></i> وضعیت: <b>باز</b></span> -->
-        </div>
 
-        <div class="card-body">
-          <div class="steps" aria-label="مراحل ثبت‌نام">
-            <div class="step">
-              <div class="num">۱</div>
-              <div>
-                <h4>ورود به صفحه ایوند</h4>
-                <p>با کلیک روی دکمه، به صفحه رسمی ثبت‌نام در ایوند منتقل می‌شوید.</p>
-              </div>
+        <section class="grid" aria-label="اطلاعات و روند ثبت‌نام" style="width: 200% !important;">
+          <article class="card">
+            <div class="card-header">
+              <h2>روند ثبت‌نام</h2>
+              <!-- <span class="pill" id="status-pill"><i class="fa-solid fa-circle-info"></i> وضعیت: <b>باز</b></span> -->
             </div>
 
-            <div class="step">
-              <div class="num">۲</div>
-              <div>
-                <h4>تکمیل اطلاعات و پرداخت</h4>
-                <p>فرم و پرداخت را داخل ایوند انجام می‌دهید؛ اطلاعات همان‌جا ثبت می‌شود.</p>
-              </div>
-            </div>
+            <div class="card-body">
+              <div class="steps" aria-label="مراحل ثبت‌نام">
+                <div class="step">
+                  <div class="num">۱</div>
+                  <div>
+                    <h4>ورود به صفحه ایوند</h4>
+                    <p>با کلیک روی دکمه، به صفحه رسمی ثبت‌نام در ایوند منتقل می‌شوید.</p>
+                  </div>
+                </div>
 
-            <div class="step">
-              <div class="num">۳</div>
-              <div>
-                <h4>دریافت بلیت/تأییدیه</h4>
-                <p>بعد از ثبت‌نام، بلیت یا تأییدیه از سمت ایوند صادر/ارسال می‌شود.</p>
-              </div>
-            </div>
+                <div class="step">
+                  <div class="num">۲</div>
+                  <div>
+                    <h4>تکمیل اطلاعات و پرداخت</h4>
+                    <p>فرم و پرداخت را داخل ایوند انجام می‌دهید؛ اطلاعات همان‌جا ثبت می‌شود.</p>
+                  </div>
+                </div>
 
-            <div class="step">
-              <div class="num">۴</div>
-              <div>
-                <h4>حضور در رویداد</h4>
-                <p>در روز رویداد، با بلیت/تأییدیه، ورود انجام می‌شود.</p>
+                <div class="step">
+                  <div class="num">۳</div>
+                  <div>
+                    <h4>دریافت بلیت/تأییدیه</h4>
+                    <p>بعد از ثبت‌نام، بلیت یا تأییدیه از سمت ایوند صادر/ارسال می‌شود.</p>
+                  </div>
+                </div>
+
+                <div class="step">
+                  <div class="num">۴</div>
+                  <div>
+                    <h4>حضور در رویداد</h4>
+                    <p>در روز رویداد، با بلیت/تأییدیه، ورود انجام می‌شود.</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </article>
-    </section>
+          </article>
+        </section>
+
       </div>
-      
     </section>
 
     <!-- Main grid -->
-
 
     <!-- Gallery -->
     <!-- <section class="card" style="margin-top:18px" aria-label="گالری دوره‌های قبلی">
