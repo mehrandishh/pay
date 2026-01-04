@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ثبت‌نام رویداد | قابلمه پارتی</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Persian-friendly font -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --bg2:#0c1730;
+      --surface: rgba(255,255,255,.08);
+      --surface2: rgba(255,255,255,.10);
+      --border: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+
+      --primary: #60a5fa;
+      --primary2:#a78bfa;
+      --good:#34d399;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 24px;
+    }
+
+    [data-theme="light"]{
+      --bg:#f6f8ff;
+      --bg2:#eef2ff;
+      --surface: rgba(255,255,255,.85);
+      --surface2: rgba(255,255,255,.95);
+      --border: rgba(15,23,42,.12);
+      --text: rgba(15,23,42,.92);
+      --muted: rgba(15,23,42,.62);
+      --shadow: 0 18px 50px rgba(15,23,42,.14);
+      --primary:#2563eb;
+      --primary2:#7c3aed;
+      --good:#10b981;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: "Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1000px 500px at 15% 15%, rgba(167,139,250,.25), transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, rgba(96,165,250,.22), transparent 60%),
+        radial-gradient(900px 500px at 50% 95%, rgba(52,211,153,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
+      line-height:1.75;
+      padding: 22px 18px 40px;
+      overflow-x:hidden;
+    }
+
+    /* Subtle animated blobs */
+    .blob{
+      position:absolute; inset:auto;
+      width:420px; height:420px;
+      filter: blur(30px);
+      opacity:.25;
+      border-radius: 999px;
+      animation: floaty 10s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .blob.b1{ right:-160px; top:-180px; background: radial-gradient(circle at 30% 30%, var(--primary2), transparent 55%); }
+    .blob.b2{ left:-180px; bottom:-220px; background: radial-gradient(circle at 30% 30%, var(--primary), transparent 55%); animation-delay: -3s; }
+    @keyframes floaty{
+      0%,100%{ transform: translate3d(0,0,0) scale(1); }
+      50%{ transform: translate3d(0,-16px,0) scale(1.04); }
+    }
+
+    a{ color:inherit; }
+    .container{
+      position:relative;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--surface2), var(--surface));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: sticky; top: 12px; z-index: 20;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800;
+      letter-spacing:-.2px;
+      white-space:nowrap;
+    }
+    .brand .logo{
+      /* اگر می‌خوای لوگو داشته باشی، همین div رو با CSS تنظیم کن */
+      /* background-image: url("logo.png"); */
+    }
+    .brand small{
+      display:block;
+      font-weight:600;
+      color: var(--muted);
+      font-size:.85rem;
+      margin-top: -2px;
+    }
+    .actions{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+
+    /* Buttons */
+    .btn{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface2), var(--surface));
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 14px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      text-decoration:none;
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      user-select:none;
+      font-weight:700;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.18);
+      border-color: rgba(255,255,255,.22);
+    }
+    [data-theme="light"] .btn:hover{ border-color: rgba(37,99,235,.28); }
+    .btn:active{ transform: translateY(0); }
+    .btn:focus-visible{
+      outline: 3px solid rgba(96,165,250,.45);
+      outline-offset: 2px;
+    }
+
+    .btn-primary{
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      color: white;
+      box-shadow: 0 14px 34px rgba(96,165,250,.20);
+    }
+    .btn-primary:hover{ box-shadow: 0 18px 44px rgba(96,165,250,.26); }
+
+    .btn-ghost{
+      background: transparent;
+      border: 1px dashed var(--border);
+    }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      font-weight:700;
+      font-size:.92rem;
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    [data-theme="light"] .pill{ background: rgba(37,99,235,.06); }
+
+    /* Hero */
+    .hero{
+      margin-top: 18px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface2), var(--surface));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .hero-inner{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 20px;
+      padding: 26px;
+      align-items:center;
+    }
+
+    .hero h1{
+      margin:0 0 10px 0;
+      font-size: clamp(1.65rem, 3vw, 2.55rem);
+      line-height: 1.25;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+    }
+    .hero p{
+      margin: 0 0 18px 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom: 16px;
+    }
+    .hero-ctas{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .hero-ctas .btn{ padding: 12px 16px; }
+
+    /* Main grid */
+    .grid{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 980px){
+      .hero-inner{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .topbar{ position: relative; top: 0; }
+    }
+
+    .card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, var(--surface2), var(--surface));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .card-header{
+      padding: 18px 18px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-header h2{
+      margin:0;
+      font-size:1.1rem;
+      font-weight:900;
+      letter-spacing:-.2px;
+    }
+    .card-body{ padding: 18px; }
+
+    .muted{ color: var(--muted); margin: 0; }
+    .hr{ height:1px; background: var(--border); margin: 14px 0; }
+
+    /* Progress steps */
+    .steps{
+      display:grid; gap: 12px;
+      margin-top: 10px;
+    }
+    .step{
+      display:flex; gap: 12px; align-items:flex-start;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+    }
+    [data-theme="light"] .step{ background: rgba(255,255,255,.7); }
+    .num{
+      width: 38px; height:38px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      font-weight: 1000;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      flex: 0 0 auto;
+      box-shadow: 0 12px 24px rgba(96,165,250,.18);
+    }
+    .step h4{ margin:0; font-size: 1rem; font-weight:1000; }
+    .step p{ margin:4px 0 0; color: var(--muted); font-weight:600; font-size:.93rem; }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      z-index: 50;
+      min-width: 260px;
+      max-width: calc(100vw - 36px);
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.55);
+      color: rgba(255,255,255,.92);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.24);
+      display:none;
+    }
+    [data-theme="light"] .toast{
+      background: rgba(15,23,42,.92);
+      border-color: rgba(255,255,255,.18);
+    }
+
+    /* Modal */
+    .modal{
+      display:none;
+      position: fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      z-index: 60;
+      padding: 18px;
+      align-items:center;
+      justify-content:center;
+    }
+    .modal-content{
+      width:100%;
+      max-width: 720px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface2), var(--surface));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow:hidden;
+      animation: pop .18s ease;
+    }
+    @keyframes pop{ from{ transform: translateY(-10px); opacity:.3; } to{ transform: translateY(0); opacity:1; } }
+    .modal-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 12px;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-head h3{
+      margin:0;
+      font-size: 1.06rem;
+      font-weight: 1000;
+    }
+    .xbtn{
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .xbtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); }
+    .modal-body{
+      padding: 16px;
+      color: var(--muted);
+      font-weight: 600;
+      max-height: 70vh;
+      overflow:auto;
+    }
+    .modal-body ol{ margin: 0; padding: 0 20px 0 0; }
+    .modal-body li{ margin: 10px 0; }
+    .modal-foot{ padding: 14px 16px 16px; border-top: 1px solid var(--border); }
+    .modal-foot .btn{ width: 100%; }
+
+    /* Gallery */
+    .gallery-grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 980px){ .gallery-grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px){ .gallery-grid{ grid-template-columns: 1fr; } }
+
+    .thumb{
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow:hidden;
+      background: rgba(255,255,255,.06);
+      aspect-ratio: 4 / 3;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      position:relative;
+    }
+    [data-theme="light"] .thumb{ background: rgba(255,255,255,.75); }
+
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .thumb .ph{
+      text-align:center;
+      color: var(--muted);
+      padding: 16px;
+      font-weight:800;
+    }
+    .thumb .ph i{ font-size: 1.4rem; margin-bottom: 6px; display:block; color: var(--primary); }
+
+    /* Lightbox (gallery modal) */
+    .lightbox-wrap{
+      display:grid;
+      gap: 12px;
+    }
+    .lightbox-img{
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      overflow:hidden;
+      background: rgba(0,0,0,.2);
+    }
+    .lightbox-img img{
+      width:100%;
+      height:auto;
+      display:block;
+      max-height: 65vh;
+      object-fit: contain;
+      background: rgba(0,0,0,.2);
+    }
+
+    /* Footer */
+    footer{
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      text-align:center;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .blob{ animation:none !important; }
+      .btn{ transition:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blob b1" aria-hidden="true"></div>
+  <div class="blob b2" aria-hidden="true"></div>
+
+  <div class="container" id="app">
+    <!-- Topbar -->
+    <div class="topbar" role="navigation" aria-label="نوار ابزار">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"><i class="fa-solid fa-pot-food"></i></div>
+        <div>قابلمه پارتی</div>
+      </div>
+
+      <div class="actions">
+        <span id="countdown-pill"></span>
+
+        <button class="btn btn-ghost" id="theme-btn" type="button" aria-label="تغییر حالت روشن/تیره">
+          <i class="fa-solid fa-moon"></i>
+          حالت
+        </button>
+
+        <button class="btn" id="terms-open" type="button">
+          <i class="fa-solid fa-file-signature"></i>
+          قوانین
+        </button>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" aria-label="معرفی رویداد">
+      <div class="hero-inner">
+        <div>
+          <h1>قابلمه پارتی 🍲 یک دورهمی متفاوت، پر از انرژی و تجربه‌های خوشمزه!</h1>
+          <p>
+            یک تجربه جذاب و برنامه‌ریزی‌شده برای حال‌خوب: آیتم‌های سرگرمی/چالش‌های تیمی + فضای دوستانه.
+            ثبت‌نام و پرداخت از طریق <strong>ایوند</strong> انجام می‌شود.
+          </p>
+
+          <div class="hero-meta">
+            <span class="pill"><i class="fa-solid fa-users"></i> ظرفیت کل: <b id="capacity">30</b></span>
+            <span class="pill"><i class="fa-solid fa-ticket"></i> باقی‌مانده: <b id="seats-left">—</b></span>
+          </div>
+
+          <div class="hero-ctas">
+            <a class="btn btn-primary" id="evand-register-btn" href="https://evand.com/events/فستیوال-قابلمه-پارتی-7096695" target="_blank" rel="noopener">
+              <i class="fa-solid fa-ticket"></i>
+              رفتن به ثبت‌نام در ایوند
+            </a>
+          </div>
+        </div>
+            <section class="grid" aria-label="اطلاعات و روند ثبت‌نام" style="width: 200% !important;">
+      <article class="card">
+        <div class="card-header">
+          <h2>روند ثبت‌نام</h2>
+          <!-- <span class="pill" id="status-pill"><i class="fa-solid fa-circle-info"></i> وضعیت: <b>باز</b></span> -->
+        </div>
+
+        <div class="card-body">
+          <div class="steps" aria-label="مراحل ثبت‌نام">
+            <div class="step">
+              <div class="num">۱</div>
+              <div>
+                <h4>ورود به صفحه ایوند</h4>
+                <p>با کلیک روی دکمه، به صفحه رسمی ثبت‌نام در ایوند منتقل می‌شوید.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">۲</div>
+              <div>
+                <h4>تکمیل اطلاعات و پرداخت</h4>
+                <p>فرم و پرداخت را داخل ایوند انجام می‌دهید؛ اطلاعات همان‌جا ثبت می‌شود.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">۳</div>
+              <div>
+                <h4>دریافت بلیت/تأییدیه</h4>
+                <p>بعد از ثبت‌نام، بلیت یا تأییدیه از سمت ایوند صادر/ارسال می‌شود.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">۴</div>
+              <div>
+                <h4>حضور در رویداد</h4>
+                <p>در روز رویداد، با بلیت/تأییدیه، ورود انجام می‌شود.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+      </div>
+      
+    </section>
+
+    <!-- Main grid -->
+
+
+    <!-- Gallery -->
+    <!-- <section class="card" style="margin-top:18px" aria-label="گالری دوره‌های قبلی">
+      <div class="card-header">
+        <h2>گالری دوره‌های قبلی</h2>
+      </div>
+      <div class="card-body">
+        <div class="gallery-grid" id="gallery-grid">
+          <div class="thumb" data-placeholder="1">
+            <div class="ph"><i class="fa-solid fa-camera"></i>جای عکس ۱</div>
+          </div>
+          <div class="thumb" data-placeholder="2">
+            <div class="ph"><i class="fa-solid fa-camera"></i>جای عکس ۲</div>
+          </div>
+          <div class="thumb" data-placeholder="3">
+            <div class="ph"><i class="fa-solid fa-camera"></i>جای عکس ۳</div>
+          </div>
+          <div class="thumb" data-placeholder="4">
+            <div class="ph"><i class="fa-solid fa-camera"></i>جای عکس ۴</div>
+          </div>
+          <div class="thumb" data-placeholder="5">
+            <div class="ph"><i class="fa-solid fa-camera"></i>جای عکس ۵</div>
+          </div>
+          <div class="thumb" data-placeholder="6">
+            <div class="ph"><i class="fa-solid fa-camera"></i>جای عکس ۶</div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <footer>
+      <div style="font-weight:900;color:var(--text)">© ۱۴۰۴ قابلمه پارتی — تمامی حقوق محفوظ است.</div>
+      <div style="margin-top:6px">Made It By Mehrab Amouei (MAS)</div>
+    </footer>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Modal قوانین -->
+  <div class="modal" id="terms-modal" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+    <div class="modal-content">
+      <div class="modal-head">
+        <h3 id="terms-title"><i class="fa-solid fa-file-signature" style="color:var(--primary)"></i> قوانین و شرایط</h3>
+        <button class="xbtn" id="close-terms" type="button" aria-label="بستن">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <ol>
+          <li>ثبت‌نام و پرداخت از طریق ایوند انجام می‌شود.</li>
+          <li>هزینه ثبت‌نام پس از پرداخت غیرقابل استرداد است (مگر طبق سیاست‌های اعلام‌شده).</li>
+          <li>ظرفیت محدود است و با تکمیل ظرفیت، ثبت‌نام بسته می‌شود.</li>
+          <li>همراه داشتن تأییدیه/بلیت در روز رویداد الزامی است.</li>
+          <li>تصاویر رویداد ممکن است برای اهداف اطلاع‌رسانی/تبلیغاتی استفاده شود.</li>
+          <li>زمان پاسخگویی و ارتباط فقط چهارشنبه‌ها ساعت ۱۶:۰۰ است.</li>
+        </ol>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn btn-primary" id="close-terms-btn" type="button">متوجه شدم</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox modal for gallery -->
+  <div class="modal" id="gallery-modal" role="dialog" aria-modal="true" aria-labelledby="gallery-title">
+    <div class="modal-content">
+      <div class="modal-head">
+        <h3 id="gallery-title"><i class="fa-solid fa-image" style="color:var(--primary)"></i> نمایش عکس</h3>
+        <button class="xbtn" id="gallery-close" type="button" aria-label="بستن">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="lightbox-wrap">
+          <div class="lightbox-img">
+            <img id="gallery-modal-img" alt="عکس گالری" />
+          </div>
+          <div class="muted" id="gallery-modal-caption"></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" id="gallery-prev" type="button"><i class="fa-solid fa-arrow-right"></i> قبلی</button>
+        <button class="btn" id="gallery-next" type="button"><i class="fa-solid fa-arrow-left"></i> بعدی</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*************************************************************
+     * تنظیمات سریع
+     *************************************************************/
+    const CONFIG = {
+      EVAND_EVENT_URL: "https://evand.com/events/فستیوال-قابلمه-پارتی-7096695",
+      EVENT_TITLE: "قابلمه پارتی",
+
+      CAPACITY: 30,
+      SEATS_LEFT: 23, // اگر نداری: null
+
+      // اگر زمان رویداد داری، این دو تا رو پر کن (برای شمارش معکوس)
+      // مثال: "2026-08-06T16:00:00+03:30"
+      EVENT_START_ISO: "",
+      EVENT_END_ISO:   ""
+    };
+
+    // مسیر عکس‌ها رو همینجا بده (بدون اضافه کردن المان جدید)
+    // مثال:
+    // { src: "gallery/1.jpg", caption: "دوره قبلی - عکس ۱" }
+    const GALLERY = [
+      // { src: "gallery/1.jpg", caption: "عکس ۱" },
+      // { src: "gallery/2.jpg", caption: "عکس ۲" },
+      // { src: "gallery/3.jpg", caption: "عکس ۳" },
+    ];
+
+    /*************************************************************
+     * Helpers
+     *************************************************************/
+    const $ = (id) => document.getElementById(id);
+
+    function showToast(msg){
+      const t = $("toast");
+      if(!t) return;
+      t.textContent = msg;
+      t.style.display = "block";
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(()=> t.style.display = "none", 2600);
+    }
+
+    function setLinks(){
+      const url = CONFIG.EVAND_EVENT_URL;
+      const btn1 = $("evand-register-btn");
+      if(btn1){
+        btn1.href = url && url !== "EVAND_URL_HERE" ? url : "#";
+        if(!url || url === "EVAND_URL_HERE"){
+          btn1.addEventListener("click", (e)=>{ e.preventDefault(); showToast("لینک ایوند هنوز تنظیم نشده است."); });
+        }
+      }
+    }
+
+    function fillContent(){
+      const cap = $("capacity");
+      if(cap) cap.textContent = CONFIG.CAPACITY;
+
+      const seats = CONFIG.SEATS_LEFT;
+      const seatsEl = $("seats-left");
+      if(seatsEl){
+        seatsEl.textContent = (typeof seats === "number") ? seats.toLocaleString("fa-IR") : "—";
+      }
+
+      const status = (typeof seats === "number" && seats <= 0) ? "تکمیل ظرفیت" : "باز";
+      const pill = $("status-pill");
+      if(pill){
+        pill.innerHTML = `<i class="fa-solid ${status==="باز" ? "fa-circle-check" : "fa-circle-xmark"}"></i> وضعیت: <b>${status}</b>`;
+        pill.style.color = status==="باز" ? "var(--good)" : "var(--bad)";
+      }
+    }
+
+    function startCountdown(){
+      const pill = $("countdown-pill");
+      if(!pill) return;
+
+      const startTs = new Date(CONFIG.EVENT_START_ISO).getTime();
+      if(!CONFIG.EVENT_START_ISO || Number.isNaN(startTs)){
+        pill.innerHTML = ``;
+        return;
+      }
+
+      function tick(){
+        const now = Date.now();
+        const diff = startTs - now;
+
+        if(diff <= 0){
+          pill.innerHTML = `<i class="fa-solid fa-bolt"></i> رویداد آغاز شده/گذشته`;
+          return;
+        }
+
+        const sec = Math.floor(diff/1000);
+        const d = Math.floor(sec / (3600*24));
+        const h = Math.floor((sec % (3600*24)) / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+
+        const fa = (n)=> n.toLocaleString("fa-IR");
+        pill.innerHTML = `<i class="fa-regular fa-clock"></i> تا شروع: <b>${fa(d)}</b> روز <b>${fa(h)}</b> ساعت <b>${fa(m)}</b> دقیقه`;
+      }
+
+      tick();
+      setInterval(tick, 30000);
+    }
+
+    function initModal(){
+      const modal = $("terms-modal");
+      const open1 = $("terms-open");
+      const close1 = $("close-terms");
+      const close2 = $("close-terms-btn");
+      if(!modal || !open1 || !close1 || !close2) return;
+
+      function open(e){ e && e.preventDefault(); modal.style.display = "flex"; }
+      function close(e){ e && e.preventDefault(); modal.style.display = "none"; }
+
+      open1.addEventListener("click", open);
+      close1.addEventListener("click", close);
+      close2.addEventListener("click", close);
+
+      window.addEventListener("click", (e)=>{ if(e.target === modal) close(e); });
+      window.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && modal.style.display==="flex") close(e); });
+    }
+
+    function initTheme(){
+      const btn = $("theme-btn");
+      const root = document.documentElement;
+      if(!btn) return;
+
+      const saved = localStorage.getItem("theme");
+      if(saved === "light" || saved === "dark"){
+        root.setAttribute("data-theme", saved);
+      }else{
+        // پیش‌فرض: لایت (طبق خواسته شما)
+        root.setAttribute("data-theme", "light");
+      }
+
+      function updateIcon(){
+        const isLight = root.getAttribute("data-theme")==="light";
+        // در لایت، آیکن ماه نمایش بده (یعنی امکان رفتن به دارک)
+        btn.innerHTML = `<i class="fa-solid ${isLight ? "fa-moon" : "fa-sun"}"></i> حالت`;
+      }
+      updateIcon();
+
+      btn.addEventListener("click", ()=>{
+        const next = (root.getAttribute("data-theme")==="light") ? "dark" : "light";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        updateIcon();
+        showToast(next==="light" ? "حالت روشن فعال شد" : "حالت تیره فعال شد");
+      });
+    }
+
+    /*************************************************************
+     * Gallery: static list + lightbox
+     *************************************************************/
+    let galleryItems = []; // {src, caption}
+    let currentIndex = 0;
+
+    function renderGallery(){
+      const grid = $("gallery-grid");
+      if(!grid) return;
+
+      // اگر GALLERY خالیه، placeholder های HTML همونطور می‌مونن
+      if(!Array.isArray(GALLERY) || GALLERY.length === 0){
+        // برای اینکه placeholder ها کلیک نخورند، هیچ کاری نمی‌کنیم
+        return;
+      }
+
+      galleryItems = GALLERY.map((x, i)=> ({
+        src: x.src,
+        caption: x.caption || `عکس ${i+1}`
+      }));
+
+      // جایگزین محتوا (بدون اضافه کردن سکشن/المان جدید)
+      grid.innerHTML = "";
+      galleryItems.forEach((it, idx)=>{
+        const t = document.createElement("div");
+        t.className = "thumb";
+        t.title = it.caption;
+        t.innerHTML = `<img src="${it.src}" alt="${it.caption}" loading="lazy" />`;
+        t.addEventListener("click", ()=> openLightbox(idx));
+        grid.appendChild(t);
+      });
+    }
+
+    function openLightbox(idx){
+      if(!galleryItems.length) return;
+      currentIndex = idx;
+      const it = galleryItems[currentIndex];
+      $("gallery-modal-img").src = it.src;
+      $("gallery-modal-caption").textContent = it.caption;
+      $("gallery-modal").style.display = "flex";
+    }
+
+    function closeLightbox(){
+      $("gallery-modal").style.display = "none";
+    }
+
+    function nextImg(){
+      if(!galleryItems.length) return;
+      currentIndex = (currentIndex + 1) % galleryItems.length;
+      openLightbox(currentIndex);
+    }
+
+    function prevImg(){
+      if(!galleryItems.length) return;
+      currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+      openLightbox(currentIndex);
+    }
+
+    function initGallery(){
+      const modal = $("gallery-modal");
+      const closeBtn = $("gallery-close");
+      const nextBtn = $("gallery-next");
+      const prevBtn = $("gallery-prev");
+      if(!modal || !closeBtn || !nextBtn || !prevBtn) return;
+
+      closeBtn.addEventListener("click", closeLightbox);
+      nextBtn.addEventListener("click", nextImg);
+      prevBtn.addEventListener("click", prevImg);
+
+      window.addEventListener("click", (e)=>{
+        if(e.target === modal) closeLightbox();
+      });
+
+      window.addEventListener("keydown", (e)=>{
+        if(modal.style.display === "flex"){
+          if(e.key === "Escape") closeLightbox();
+          if(e.key === "ArrowLeft") nextImg();
+          if(e.key === "ArrowRight") prevImg();
+        }
+      });
+
+      renderGallery();
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+      setLinks();
+      fillContent();
+      startCountdown();
+      initModal();
+      initTheme();
+      initGallery();
+    });
+  </script>
+</body>
+</html>
