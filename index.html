@@ -1,2137 +1,1826 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مرکز آموزشی آینده‌سازان - کلاس‌های رباتیک، برنامه‌نویسی، چرتکه و محاسبات آسان</title>
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Animate CSS for smooth animations -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
-    <style>
-        :root {
-            /* Color Scheme */
-            --primary-blue: #2563eb;
-            --primary-purple: #7c3aed;
-            --primary-gradient: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
-            --secondary-orange: #f97316;
-            --secondary-green: #10b981;
-            --secondary-pink: #ec4899;
-            --secondary-yellow: #f59e0b;
-            
-            /* Backgrounds */
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --bg-dark: #0f172a;
-            --bg-surface: rgba(255, 255, 255, 0.95);
-            
-            /* Text Colors */
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --text-light: #64748b;
-            --text-white: #ffffff;
-            
-            /* Borders & Shadows */
-            --border-light: #e2e8f0;
-            --border-medium: #cbd5e1;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
-            
-            /* Transitions */
-            --transition-fast: 0.2s ease;
-            --transition-normal: 0.3s ease;
-            --transition-slow: 0.5s ease;
-            
-            /* Border Radius */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            --radius-full: 9999px;
-            
-            /* Safe area for mobile */
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-            --safe-left: env(safe-area-inset-left, 0px);
-            --safe-right: env(safe-area-inset-right, 0px);
-        }
-        
-        [data-theme="dark"] {
-            --bg-light: #0f172a;
-            --bg-white: #1e293b;
-            --bg-dark: #020617;
-            --bg-surface: rgba(30, 41, 59, 0.95);
-            
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-light: #94a3b8;
-            
-            --border-light: #334155;
-            --border-medium: #475569;
-            
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-            --shadow-xl: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-        
-        body {
-            font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            transition: background-color var(--transition-normal);
-            min-height: 100vh;
-            padding-top: var(--safe-top);
-            padding-bottom: var(--safe-bottom);
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header with Hero Banner */
-        .header {
-            position: relative;
-            width: 100%;
-            height: 80vh;
-            min-height: 500px;
-            max-height: 800px;
-            overflow: hidden;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-            box-shadow: var(--shadow-xl);
-            margin-bottom: 40px;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        @media (max-width: 768px) {
-            .header {
-                height: 70vh;
-                min-height: 450px;
-                max-height: 600px;
-                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-                margin-bottom: 30px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header {
-                height: 65vh;
-                min-height: 400px;
-                max-height: 550px;
-            }
-        }
-        
-        .hero-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            touch-action: pan-y;
-        }
-        
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity var(--transition-slow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .slide.active {
-            opacity: 1;
-        }
-        
-        .slide-content {
-            max-width: 800px;
-            text-align: center;
-            color: white;
-            z-index: 2;
-            padding: 30px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--radius-xl);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 90%;
-            max-width: 600px;
-        }
-        
-        @media (max-width: 768px) {
-            .slide-content {
-                padding: 25px 20px;
-                border-radius: var(--radius-lg);
-                width: 95%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .slide-content {
-                padding: 20px 15px;
-                backdrop-filter: blur(5px);
-                -webkit-backdrop-filter: blur(5px);
-            }
-        }
-        
-        .slide h1 {
-            font-size: clamp(1.8rem, 5vw, 3.5rem);
-            font-weight: 900;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.3;
-        }
-        
-        @media (max-width: 480px) {
-            .slide h1 {
-                font-size: 1.8rem;
-                margin-bottom: 12px;
-            }
-        }
-        
-        .slide p {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            margin-bottom: 25px;
-            color: #e2e8f0;
-        }
-        
-        @media (max-width: 480px) {
-            .slide p {
-                font-size: 1rem;
-                margin-bottom: 20px;
-            }
-        }
-        
-        .slide-btn {
-            display: inline-block;
-            padding: clamp(12px, 3vw, 16px) clamp(20px, 4vw, 32px);
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
-            color: white;
-            text-decoration: none;
-            border-radius: var(--radius-full);
-            font-weight: 700;
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            transition: all var(--transition-normal);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-            border: none;
-            cursor: pointer;
-            white-space: nowrap;
-            min-height: 48px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        @media (max-width: 480px) {
-            .slide-btn {
-                width: 100%;
-                max-width: 280px;
-                margin: 0 auto;
-            }
-        }
-        
-        .slide-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
-        }
-        
-        .slide-btn:active {
-            transform: translateY(-2px);
-        }
-        
-        .slide-indicators {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
-        }
-        
-        @media (max-width: 480px) {
-            .slide-indicators {
-                bottom: 20px;
-                gap: 10px;
-            }
-        }
-        
-        .indicator {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            touch-action: manipulation;
-        }
-        
-        @media (max-width: 480px) {
-            .indicator {
-                width: 12px;
-                height: 12px;
-            }
-        }
-        
-        .indicator.active {
-            background: white;
-            transform: scale(1.2);
-        }
-        
-        .slider-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 10;
-            pointer-events: none;
-        }
-        
-        @media (max-width: 768px) {
-            .slider-nav {
-                padding: 0 15px;
-            }
-        }
-        
-        .nav-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            pointer-events: auto;
-            touch-action: manipulation;
-        }
-        
-        @media (max-width: 480px) {
-            .nav-btn {
-                width: 44px;
-                height: 44px;
-                font-size: 1rem;
-            }
-        }
-        
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(1.1);
-        }
-        
-        /* Main Layout */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        @media (max-width: 992px) {
-            .main-layout {
-                gap: 25px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                margin-bottom: 40px;
-            }
-        }
-        
-        /* Event Section */
-        .event-section {
-            background: var(--bg-white);
-            border-radius: var(--radius-xl);
-            padding: 25px;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            border: 1px solid var(--border-light);
-            transition: all var(--transition-normal);
-        }
-        
-        @media (max-width: 768px) {
-            .event-section {
-                padding: 20px;
-                border-radius: var(--radius-lg);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .event-section {
-                padding: 18px;
-            }
-        }
-        
-        .event-section:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-xl);
-        }
-        
-        .event-image {
-            width: 100%;
-            height: 80%;
-            aspect-ratio: 1;
-            margin-top: -5%;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background-image: url("25.jpg");
-            background-size: contain; 
-            background-repeat: no-repeat;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-blue);
-            font-size: clamp(3rem, 8vw, 5rem);
-            min-height: 200px;
-        }
-        
-        @media (max-width: 768px) {
-            .event-image {
-                aspect-ratio: 16/9;
-                min-height: 180px;
-            }
-        }
-        
-        .event-content h2 {
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            font-weight: 800;
-            line-height: 1.4;
-        }
-        
-        .event-content p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
-            line-height: 1.6;
-        }
-        
-        /* Psychology Optimized Button */
-        .psychology-btn {
-            display: inline-block;
-            padding: clamp(14px, 3vw, 18px) clamp(24px, 4vw, 36px);
-            background: linear-gradient(135deg, var(--secondary-green), var(--secondary-yellow));
-            color: white;
-            text-decoration: none;
-            border-radius: var(--radius-full);
-            font-weight: 900;
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            text-align: center;
-            transition: all var(--transition-normal);
-            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            animation: pulse 2s infinite;
-            min-height: 52px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
-        }
-        
-        @media (max-width: 768px) {
-            .psychology-btn {
-                max-width: 280px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .psychology-btn {
-                max-width: 100%;
-                font-size: 1rem;
-                padding: 16px 24px;
-            }
-        }
-        
-        .psychology-btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
-            animation: none;
-        }
-        
-        .psychology-btn:active {
-            transform: translateY(-4px) scale(1.02);
-        }
-        
-        .psychology-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-        
-        .psychology-btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3); }
-            50% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.6); }
-            100% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3); }
-        }
-        
-        @keyframes ripple {
-            0% { transform: scale(0, 0); opacity: 0.5; }
-            100% { transform: scale(40, 40); opacity: 0; }
-        }
-        
-        /* Talent Assessment Banner */
-        .talent-banner {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-radius: var(--radius-xl);
-            padding: clamp(30px, 5vw, 50px) clamp(25px, 4vw, 40px);
-            margin-bottom: 50px;
-            color: white;
-            text-align: center;
-            box-shadow: var(--shadow-xl);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        @media (max-width: 768px) {
-            .talent-banner {
-                padding: 30px 25px;
-                border-radius: var(--radius-lg);
-                margin-bottom: 40px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .talent-banner {
-                padding: 25px 20px;
-                margin-bottom: 30px;
-            }
-        }
-        
-        .talent-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .talent-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .talent-content h2 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            margin-bottom: 15px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.3;
-        }
-        
-        @media (max-width: 480px) {
-            .talent-content h2 {
-                font-size: 1.5rem;
-                margin-bottom: 12px;
-            }
-        }
-        
-        .talent-content p {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            margin-bottom: 25px;
-            color: #cbd5e1;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-        
-        @media (max-width: 480px) {
-            .talent-content p {
-                font-size: 1rem;
-                margin-bottom: 20px;
-            }
-        }
-        
-        /* Video and Questions Section */
-        .video-questions-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        @media (max-width: 992px) {
-            .video-questions-section {
-                gap: 25px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .video-questions-section {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                margin-bottom: 40px;
-            }
-        }
-        
-        .video-container {
-            background: var(--bg-white);
-            border-radius: var(--radius-xl);
-            padding: 22px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-light);
-        }
-        
-        @media (max-width: 768px) {
-            .video-container {
-                padding: 20px;
-                border-radius: var(--radius-lg);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .video-container {
-                padding: 18px;
-            }
-        }
-        
-        .video-placeholder {
-            width: 100%;
-            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
-            border-radius: var(--radius-lg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: clamp(3rem, 8vw, 5rem);
-            margin-bottom: 18px;
-            overflow: hidden;
-            min-height: 200px;
-        }
-        
-        .video-info h3 {
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-            margin-bottom: 8px;
-            color: var(--text-primary);
-            font-weight: 800;
-            line-height: 1.4;
-        }
-        
-        .video-info p {
-            color: var(--text-secondary);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
-        
-        /* Questions Container */
-        .questions-container {
-            background: var(--bg-white);
-            border-radius: var(--radius-xl);
-            padding: 22px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-light);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        
-        @media (max-width: 768px) {
-            .questions-container {
-                padding: 20px;
-                border-radius: var(--radius-lg);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .questions-container {
-                padding: 18px;
-            }
-        }
-        
-        .questions-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--border-light);
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .questions-header h3 {
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-            font-weight: 800;
-            color: var(--text-primary);
-            line-height: 1.4;
-        }
-        
-        .questions-header span {
-            color: var(--text-light);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            white-space: nowrap;
-        }
-        
-        .questions-scroll {
-            flex: 1;
-            overflow-y: auto;
-            max-height: 400px;
-            padding-left: 10px;
-            margin-bottom: 18px;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        @media (max-width: 768px) {
-            .questions-scroll {
-                max-height: 350px;
-            }
-        }
-        
-        .question-item {
-            padding: 18px;
-            background: var(--bg-light);
-            border-radius: var(--radius-lg);
-            margin-bottom: 12px;
-            border: 1px solid var(--border-light);
-            transition: all var(--transition-normal);
-        }
-        
-        @media (max-width: 480px) {
-            .question-item {
-                padding: 15px;
-            }
-        }
-        
-        .question-item:hover {
-            transform: translateX(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .question-number {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background: var(--primary-gradient);
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-        }
-        
-        .question-text {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-size: clamp(0.95rem, 2vw, 1rem);
-            line-height: 1.5;
-        }
-        
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            background: white;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            user-select: none;
-            touch-action: manipulation;
-            min-height: 44px;
-        }
-        
-        .option:hover {
-            background: #f1f5f9;
-            border-color: var(--primary-blue);
-        }
-        
-        .option input {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        
-        .option span {
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            flex: 1;
-        }
-        
-        .show-more-btn {
-            padding: 15px;
-            background: var(--bg-light);
-            border: 2px dashed var(--border-medium);
-            border-radius: var(--radius-lg);
-            color: var(--text-secondary);
-            font-weight: 700;
-            text-align: center;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            margin-top: auto;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .show-more-btn:hover {
-            background: #e2e8f0;
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
-        
-        .submit-btn {
-            margin-top: 20px;
-            padding: clamp(14px, 3vw, 18px);
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            border-radius: var(--radius-lg);
-            font-weight: 900;
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-            min-height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
-        }
-        
-        /* Full Questions Modal */
-        .questions-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 20px;
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
-        }
-        
-        @media (max-width: 480px) {
-            .questions-modal {
-                padding: 10px;
-            }
-        }
-        
-        .modal-content {
-            background: var(--bg-white);
-            border-radius: var(--radius-xl);
-            max-width: 800px;
-            margin: 20px auto;
-            padding: clamp(25px, 4vw, 40px);
-            position: relative;
-            box-shadow: var(--shadow-xl);
-            max-height: calc(100vh - 40px);
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 10px auto;
-                padding: 25px;
-                border-radius: var(--radius-lg);
-                max-height: calc(100vh - 20px);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .modal-content {
-                padding: 20px;
-                margin: 5px auto;
-                max-height: calc(100vh - 10px);
-            }
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--border-light);
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        @media (max-width: 480px) {
-            .modal-header {
-                margin-bottom: 20px;
-                padding-bottom: 15px;
-            }
-        }
-        
-        .modal-header h3 {
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            font-weight: 900;
-            color: var(--text-primary);
-            line-height: 1.4;
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        .close-modal {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--bg-light);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            flex-shrink: 0;
-            touch-action: manipulation;
-        }
-        
-        .close-modal:hover {
-            background: #e2e8f0;
-            color: var(--text-primary);
-        }
-        
-        /* ✅ فرم اطلاعات کاربر */
-        .user-form {
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: 18px;
-            margin: 25px 0 30px;
-        }
-        
-        @media (max-width: 480px) {
-            .user-form {
-                padding: 15px;
-                margin: 20px 0 25px;
-            }
-        }
-        
-        .user-form-title {
-            font-weight: 900;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: clamp(1rem, 2vw, 1.1rem);
-        }
-        
-        .user-form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        @media (max-width: 768px) {
-            .user-form-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .user-form-grid {
-                gap: 10px;
-            }
-        }
-        
-        .field {
-            margin-bottom: 5px;
-        }
-        
-        .field label {
-            font-size: clamp(0.9rem, 2vw, 0.95rem);
-            font-weight: 800;
-            color: var(--text-secondary);
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        .field input {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            background: var(--bg-white);
-            color: var(--text-primary);
-            outline: none;
-            font-size: clamp(0.95rem, 2vw, 1rem);
-            font-family: 'Vazirmatn', sans-serif;
-            transition: all var(--transition-fast);
-            min-height: 44px;
-        }
-        
-        .field input:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-        
-        .form-hint {
-            margin-top: 8px;
-            color: var(--text-light);
-            font-weight: 700;
-            font-size: clamp(0.85rem, 2vw, 0.92rem);
-            line-height: 1.4;
-        }
-        
-        #fullQuestionsList {
-            margin-top: 20px;
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--bg-dark);
-            color: white;
-            padding: clamp(40px, 6vw, 60px) 0 clamp(25px, 4vw, 30px);
-            margin-top: 50px;
-        }
-        
-        @media (max-width: 768px) {
-            .footer {
-                padding: 40px 0 25px;
-                margin-top: 40px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .footer {
-                padding: 35px 0 20px;
-                margin-top: 30px;
-            }
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: clamp(25px, 4vw, 40px);
-            margin-bottom: clamp(30px, 4vw, 40px);
-        }
-        
-        @media (max-width: 992px) {
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-        }
-        
-        .footer-column h4 {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            margin-bottom: 20px;
-            font-weight: 800;
-            color: #f1f5f9;
-            position: relative;
-            padding-bottom: 12px;
-            line-height: 1.4;
-        }
-        
-        @media (max-width: 480px) {
-            .footer-column h4 {
-                margin-bottom: 15px;
-                padding-bottom: 10px;
-            }
-        }
-        
-        .footer-column h4::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--primary-gradient);
-            border-radius: var(--radius-full);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-        
-        @media (max-width: 480px) {
-            .footer-links li {
-                margin-bottom: 10px;
-            }
-        }
-        
-        .footer-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            padding: 4px 0;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 25px;
-            border-top: 1px solid #334155;
-            color: #94a3b8;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            line-height: 1.6;
-        }
-        
-        @media (max-width: 480px) {
-            .footer-bottom {
-                padding-top: 20px;
-            }
-        }
-        
-        /* Interactive buttons */
-        .interactive-btn {
-            padding: clamp(12px, 3vw, 14px) clamp(20px, 4vw, 28px);
-            background: linear-gradient(135deg, var(--secondary-orange), var(--secondary-pink));
-            color: white;
-            border: none;
-            border-radius: var(--radius-full);
-            font-weight: 700;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            min-height: 48px;
-            white-space: nowrap;
-        }
-        
-        @media (max-width: 480px) {
-            .interactive-btn {
-                width: 100%;
-                max-width: 280px;
-                margin: 0 auto;
-            }
-        }
-        
-        .interactive-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(236, 72, 153, 0.4);
-        }
-        
-        .interactive-btn:active {
-            transform: translateY(-2px);
-        }
-        
-        /* Theme Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: max(20px, var(--safe-top));
-            left: max(20px, var(--safe-left));
-            z-index: 100;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--bg-white);
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid var(--border-light);
-            transition: all var(--transition-normal);
-            touch-action: manipulation;
-        }
-        
-        @media (max-width: 768px) {
-            .theme-toggle {
-                width: 44px;
-                height: 44px;
-                top: max(15px, var(--safe-top));
-                left: max(15px, var(--safe-left));
-            }
-        }
-        
-        .theme-toggle:hover {
-            transform: rotate(30deg);
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-in {
-            animation: fadeIn 0.8s ease forwards;
-        }
-        
-        /* Success Message */
-        .success-message {
-            display: none;
-            position: fixed;
-            top: max(20px, var(--safe-top));
-            right: max(20px, var(--safe-right));
-            z-index: 1000;
-            background: var(--secondary-green);
-            color: white;
-            padding: clamp(15px, 3vw, 20px) clamp(20px, 4vw, 30px);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            animation: fadeIn 0.5s ease;
-            font-weight: 700;
-            max-width: calc(100% - 40px);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            line-height: 1.4;
-        }
-        
-        @media (max-width: 768px) {
-            .success-message {
-                top: max(15px, var(--safe-top));
-                right: max(15px, var(--safe-right));
-                max-width: calc(100% - 30px);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .success-message {
-                top: max(10px, var(--safe-top));
-                right: max(10px, var(--safe-right));
-                max-width: calc(100% - 20px);
-                padding: 15px 20px;
-            }
-        }
-        
-        /* Mobile-specific improvements */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-            }
-            
-            .slide {
-                padding: 15px;
-            }
-            
-            .event-image {
-                font-size: 3rem;
-            }
-            
-            .talent-banner::before {
-                animation: rotate 30s linear infinite;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 12px;
-            }
-            
-            .slide {
-                padding: 10px;
-            }
-            
-            .nav-btn {
-                opacity: 0.8;
-            }
-            
-            .questions-scroll {
-                max-height: 300px;
-            }
-            
-            .option {
-                padding: 10px 12px;
-            }
-            
-            .modal-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .modal-header h3 {
-                min-width: auto;
-            }
-            
-            .close-modal {
-                align-self: flex-end;
-                margin-top: -10px;
-            }
-        }
-        
-        /* Touch device optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .event-section:hover {
-                transform: none;
-            }
-            
-            .question-item:hover {
-                transform: none;
-            }
-            
-            .option:hover {
-                background: white;
-            }
-            
-            .nav-btn:hover, 
-            .slide-btn:hover,
-            .psychology-btn:hover,
-            .interactive-btn:hover,
-            .submit-btn:hover {
-                transform: none;
-            }
-            
-            .nav-btn:active, 
-            .slide-btn:active,
-            .psychology-btn:active,
-            .interactive-btn:active,
-            .submit-btn:active {
-                transform: scale(0.95);
-            }
-            
-            .theme-toggle:hover {
-                transform: none;
-            }
-            
-            .theme-toggle:active {
-                transform: rotate(30deg);
-            }
-        }
-        
-        /* Prevent text size adjustment on orientation change */
-        @media (max-width: 768px) {
-            html {
-                -webkit-text-size-adjust: none;
-            }
-        }
-        
-        /* Fix for iOS Safari 100vh issue */
-        @supports (-webkit-touch-callout: none) {
-            .header {
-                height: -webkit-fill-available;
-                min-height: -webkit-fill-available;
-            }
-            
-            .questions-modal {
-                height: -webkit-fill-available;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>مرکز آموزشی آینده‌سازان - کلاس‌های رباتیک، برنامه‌نویسی، چرتکه و محاسبات آسان</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Animate CSS for smooth animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+  <style>
+    :root {
+      --primary-blue: #2563eb;
+      --primary-purple: #7c3aed;
+      --primary-gradient: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+      --secondary-orange: #f97316;
+      --secondary-green: #10b981;
+      --secondary-pink: #ec4899;
+      --secondary-yellow: #f59e0b;
+
+      --bg-light: #f8fafc;
+      --bg-white: #ffffff;
+      --bg-dark: #0f172a;
+      --bg-surface: rgba(255, 255, 255, 0.95);
+
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-light: #64748b;
+      --text-white: #ffffff;
+
+      --border-light: #e2e8f0;
+      --border-medium: #cbd5e1;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s ease;
+      --transition-slow: 0.5s ease;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    [data-theme="dark"] {
+      --bg-light: #0f172a;
+      --bg-white: #1e293b;
+      --bg-dark: #020617;
+      --bg-surface: rgba(30, 41, 59, 0.95);
+
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-light: #94a3b8;
+
+      --border-light: #334155;
+      --border-medium: #475569;
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      --shadow-xl: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color var(--transition-normal);
+      min-height: 100vh;
+      padding-top: var(--safe-top);
+      padding-bottom: var(--safe-bottom);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header with Hero Banner */
+    .header {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      min-height: 500px;
+      max-height: 800px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      margin-bottom: 40px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        height: 70vh;
+        min-height: 450px;
+        max-height: 600px;
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        margin-bottom: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        height: 65vh;
+        min-height: 400px;
+        max-height: 550px;
+      }
+    }
+
+    .hero-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      touch-action: pan-y;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity var(--transition-slow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .slide.active { opacity: 1; }
+
+    .slide-content {
+      max-width: 800px;
+      text-align: center;
+      color: white;
+      z-index: 2;
+      padding: 30px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 90%;
+      max-width: 600px;
+    }
+
+    @media (max-width: 768px) {
+      .slide-content {
+        padding: 25px 20px;
+        border-radius: var(--radius-lg);
+        width: 95%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slide-content {
+        padding: 20px 15px;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
+    }
+
+    .slide h1 {
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 900;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 480px) {
+      .slide h1 { font-size: 1.8rem; margin-bottom: 12px; }
+    }
+
+    .slide p {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      margin-bottom: 25px;
+      color: #e2e8f0;
+    }
+
+    @media (max-width: 480px) {
+      .slide p { font-size: 1rem; margin-bottom: 20px; }
+    }
+
+    .slide-btn {
+      display: inline-block;
+      padding: clamp(12px, 3vw, 16px) clamp(20px, 4vw, 32px);
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+      color: white;
+      text-decoration: none;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      transition: all var(--transition-normal);
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 480px) {
+      .slide-btn { width: 100%; max-width: 280px; margin: 0 auto; }
+    }
+
+    .slide-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4); }
+    .slide-btn:active { transform: translateY(-2px); }
+
+    .slide-indicators {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    @media (max-width: 480px) {
+      .slide-indicators { bottom: 20px; gap: 10px; }
+    }
+
+    .indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 480px) {
+      .indicator { width: 12px; height: 12px; }
+    }
+
+    .indicator.active { background: white; transform: scale(1.2); }
+
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .slider-nav { padding: 0 15px; }
+    }
+
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      pointer-events: auto;
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn { width: 44px; height: 44px; font-size: 1rem; }
+    }
+
+    .nav-btn:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.1); }
+
+    /* Main Layout */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 992px) {
+      .main-layout { gap: 25px; }
+    }
+
+    @media (max-width: 768px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+    }
+
+    /* Event Section */
+    .event-section {
+      background: var(--bg-white);
+      border-radius: var(--radius-xl);
+      padding: 25px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border: 1px solid var(--border-light);
+      transition: all var(--transition-normal);
+    }
+
+    @media (max-width: 768px) {
+      .event-section { padding: 20px; border-radius: var(--radius-lg); }
+    }
+
+    @media (max-width: 480px) {
+      .event-section { padding: 18px; }
+    }
+
+    .event-section:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); }
+
+    .event-image {
+      width: 100%;
+      height: 80%;
+      aspect-ratio: 1;
+      margin-top: -5%;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background-image: url("25.jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-blue);
+      font-size: clamp(3rem, 8vw, 5rem);
+      min-height: 200px;
+    }
+
+    @media (max-width: 768px) {
+      .event-image { aspect-ratio: 16/9; min-height: 180px; }
+    }
+
+    .event-content h2 {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .event-content p {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      line-height: 1.6;
+    }
+
+    /* Psychology Optimized Button */
+    .psychology-btn {
+      display: inline-block;
+      padding: clamp(14px, 3vw, 18px) clamp(24px, 4vw, 36px);
+      background: linear-gradient(135deg, var(--secondary-green), var(--secondary-yellow));
+      color: white;
+      text-decoration: none;
+      border-radius: var(--radius-full);
+      font-weight: 900;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      text-align: center;
+      transition: all var(--transition-normal);
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: pulse 2s infinite;
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .psychology-btn { max-width: 280px; }
+    }
+
+    @media (max-width: 480px) {
+      .psychology-btn { max-width: 100%; font-size: 1rem; padding: 16px 24px; }
+    }
+
+    .psychology-btn:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+      animation: none;
+    }
+
+    .psychology-btn:active { transform: translateY(-4px) scale(1.02); }
+
+    .psychology-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    .psychology-btn:focus:not(:active)::after { animation: ripple 1s ease-out; }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.6); }
+      100% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3); }
+    }
+
+    @keyframes ripple {
+      0% { transform: scale(0, 0); opacity: 0.5; }
+      100% { transform: scale(40, 40); opacity: 0; }
+    }
+
+    /* Talent Assessment Banner */
+    .talent-banner {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-radius: var(--radius-xl);
+      padding: clamp(30px, 5vw, 50px) clamp(25px, 4vw, 40px);
+      margin-bottom: 50px;
+      color: white;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .talent-banner { padding: 30px 25px; border-radius: var(--radius-lg); margin-bottom: 40px; }
+    }
+
+    @media (max-width: 480px) {
+      .talent-banner { padding: 25px 20px; margin-bottom: 30px; }
+    }
+
+    .talent-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+
+    .talent-content { position: relative; z-index: 2; }
+
+    .talent-content h2 {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      margin-bottom: 15px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 480px) {
+      .talent-content h2 { font-size: 1.5rem; margin-bottom: 12px; }
+    }
+
+    .talent-content p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      margin-bottom: 25px;
+      color: #cbd5e1;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      .talent-content p { font-size: 1rem; margin-bottom: 20px; }
+    }
+
+    /* Video and Questions Section */
+    .video-questions-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 992px) {
+      .video-questions-section { gap: 25px; }
+    }
+
+    @media (max-width: 768px) {
+      .video-questions-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+    }
+
+    .video-container {
+      background: var(--bg-white);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-light);
+    }
+
+    @media (max-width: 768px) {
+      .video-container { padding: 20px; border-radius: var(--radius-lg); }
+    }
+
+    @media (max-width: 480px) {
+      .video-container { padding: 18px; }
+    }
+
+    .video-placeholder {
+      width: 100%;
+      background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: clamp(3rem, 8vw, 5rem);
+      margin-bottom: 18px;
+      overflow: hidden;
+      min-height: 200px;
+    }
+
+    .video-info h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      margin-bottom: 8px;
+      color: var(--text-primary);
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .video-info p { color: var(--text-secondary); font-size: clamp(0.9rem, 2vw, 1rem); }
+
+    /* Questions Container */
+    .questions-container {
+      background: var(--bg-white);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .questions-container { padding: 20px; border-radius: var(--radius-lg); }
+    }
+
+    @media (max-width: 480px) {
+      .questions-container { padding: 18px; }
+    }
+
+    .questions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-light);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .questions-header h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .questions-header span {
+      color: var(--text-light);
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      white-space: nowrap;
+    }
+
+    .questions-scroll {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 400px;
+      padding-left: 10px;
+      margin-bottom: 18px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 768px) {
+      .questions-scroll { max-height: 350px; }
+    }
+
+    .question-item {
+      padding: 18px;
+      background: var(--bg-light);
+      border-radius: var(--radius-lg);
+      margin-bottom: 12px;
+      border: 1px solid var(--border-light);
+      transition: all var(--transition-normal);
+    }
+
+    @media (max-width: 480px) {
+      .question-item { padding: 15px; }
+    }
+
+    .question-item:hover { transform: translateX(-5px); box-shadow: var(--shadow-md); }
+
+    .question-number {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .question-text {
+      color: var(--text-primary);
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: clamp(0.95rem, 2vw, 1rem);
+      line-height: 1.5;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background: white;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+      touch-action: manipulation;
+      min-height: 44px;
+    }
+
+    .option:hover { background: #f1f5f9; border-color: var(--primary-blue); }
+
+    .option input {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .option span { font-size: clamp(0.9rem, 2vw, 1rem); flex: 1; }
+
+    .show-more-btn {
+      padding: 15px;
+      background: var(--bg-light);
+      border: 2px dashed var(--border-medium);
+      border-radius: var(--radius-lg);
+      color: var(--text-secondary);
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      margin-top: auto;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .show-more-btn:hover {
+      background: #e2e8f0;
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+    }
+
+    .submit-btn {
+      margin-top: 20px;
+      padding: clamp(14px, 3vw, 18px);
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-weight: 900;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .submit-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4); }
+
+    /* Full Questions Modal */
+    .questions-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+
+    @media (max-width: 480px) {
+      .questions-modal { padding: 10px; }
+    }
+
+    .modal-content {
+      background: var(--bg-white);
+      border-radius: var(--radius-xl);
+      max-width: 800px;
+      margin: 20px auto;
+      padding: clamp(25px, 4vw, 40px);
+      position: relative;
+      box-shadow: var(--shadow-xl);
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        margin: 10px auto;
+        padding: 25px;
+        border-radius: var(--radius-lg);
+        max-height: calc(100vh - 20px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 20px;
+        margin: 5px auto;
+        max-height: calc(100vh - 10px);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--border-light);
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 480px) {
+      .modal-header { margin-bottom: 20px; padding-bottom: 15px; }
+    }
+
+    .modal-header h3 {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 900;
+      color: var(--text-primary);
+      line-height: 1.4;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .close-modal {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-light);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      touch-action: manipulation;
+    }
+
+    .close-modal:hover { background: #e2e8f0; color: var(--text-primary); }
+
+    .user-form {
+      background: var(--bg-light);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin: 25px 0 30px;
+    }
+
+    @media (max-width: 480px) {
+      .user-form { padding: 15px; margin: 20px 0 25px; }
+    }
+
+    .user-form-title {
+      font-weight: 900;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+    }
+
+    .user-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .user-form-grid { grid-template-columns: 1fr; gap: 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .user-form-grid { gap: 10px; }
+    }
+
+    .field { margin-bottom: 5px; }
+
+    .field label {
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
+      font-weight: 800;
+      color: var(--text-secondary);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      background: var(--bg-white);
+      color: var(--text-primary);
+      outline: none;
+      font-size: clamp(0.95rem, 2vw, 1rem);
+      font-family: 'Vazirmatn', sans-serif;
+      transition: all var(--transition-fast);
+      min-height: 44px;
+    }
+
+    .field input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .form-hint {
+      margin-top: 8px;
+      color: var(--text-light);
+      font-weight: 700;
+      font-size: clamp(0.85rem, 2vw, 0.92rem);
+      line-height: 1.4;
+    }
+
+    #fullQuestionsList { margin-top: 20px; }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-dark);
+      color: white;
+      padding: clamp(40px, 6vw, 60px) 0 clamp(25px, 4vw, 30px);
+      margin-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .footer { padding: 40px 0 25px; margin-top: 40px; }
+    }
+
+    @media (max-width: 480px) {
+      .footer { padding: 35px 0 20px; margin-top: 30px; }
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(25px, 4vw, 40px);
+      margin-bottom: clamp(30px, 4vw, 40px);
+    }
+
+    @media (max-width: 992px) {
+      .footer-content { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-content { grid-template-columns: 1fr; gap: 25px; }
+    }
+
+    .footer-column h4 {
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      margin-bottom: 20px;
+      font-weight: 800;
+      color: #f1f5f9;
+      position: relative;
+      padding-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 480px) {
+      .footer-column h4 { margin-bottom: 15px; padding-bottom: 10px; }
+    }
+
+    .footer-column h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--primary-gradient);
+      border-radius: var(--radius-full);
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+
+    @media (max-width: 480px) {
+      .footer-links li { margin-bottom: 10px; }
+    }
+
+    .footer-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      padding: 4px 0;
+    }
+
+    .footer-links a:hover { color: white; transform: translateX(5px); }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 25px;
+      border-top: 1px solid #334155;
+      color: #94a3b8;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      .footer-bottom { padding-top: 20px; }
+    }
+
+    /* Interactive buttons */
+    .interactive-btn {
+      padding: clamp(12px, 3vw, 14px) clamp(20px, 4vw, 28px);
+      background: linear-gradient(135deg, var(--secondary-orange), var(--secondary-pink));
+      color: white;
+      border: none;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      min-height: 48px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+      .interactive-btn { width: 100%; max-width: 280px; margin: 0 auto; }
+    }
+
+    .interactive-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 30px rgba(236, 72, 153, 0.4); }
+    .interactive-btn:active { transform: translateY(-2px); }
+
+    /* ✅ SUCCESS MESSAGE */
+    .success-message {
+      display: none;
+      position: fixed;
+      top: max(20px, var(--safe-top));
+      right: max(20px, var(--safe-right));
+      z-index: 1000;
+      background: var(--secondary-green);
+      color: white;
+      padding: clamp(15px, 3vw, 20px) clamp(20px, 4vw, 30px);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      animation: fadeIn 0.5s ease;
+      font-weight: 700;
+      max-width: calc(100% - 40px);
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .success-message {
+        top: max(15px, var(--safe-top));
+        right: max(15px, var(--safe-right));
+        max-width: calc(100% - 30px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .success-message {
+        top: max(10px, var(--safe-top));
+        right: max(10px, var(--safe-right));
+        max-width: calc(100% - 20px);
+        padding: 15px 20px;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in { animation: fadeIn 0.8s ease forwards; }
+
+    /* Mobile-specific improvements */
+    @media (max-width: 768px) {
+      .container { padding: 0 15px; }
+      .slide { padding: 15px; }
+      .event-image { font-size: 3rem; }
+      .talent-banner::before { animation: rotate 30s linear infinite; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 12px; }
+      .slide { padding: 10px; }
+      .nav-btn { opacity: 0.8; }
+      .questions-scroll { max-height: 300px; }
+      .option { padding: 10px 12px; }
+      .modal-header { flex-direction: column; align-items: stretch; }
+      .modal-header h3 { min-width: auto; }
+      .close-modal { align-self: flex-end; margin-top: -10px; }
+    }
+
+    /* Touch device optimizations */
+    @media (hover: none) and (pointer: coarse) {
+      .event-section:hover { transform: none; }
+      .question-item:hover { transform: none; }
+      .option:hover { background: white; }
+
+      .nav-btn:hover,
+      .slide-btn:hover,
+      .psychology-btn:hover,
+      .interactive-btn:hover,
+      .submit-btn:hover { transform: none; }
+
+      .nav-btn:active,
+      .slide-btn:active,
+      .psychology-btn:active,
+      .interactive-btn:active,
+      .submit-btn:active { transform: scale(0.95); }
+    }
+
+    @media (max-width: 768px) {
+      html { -webkit-text-size-adjust: none; }
+    }
+
+    @supports (-webkit-touch-callout: none) {
+      .header { height: -webkit-fill-available; min-height: -webkit-fill-available; }
+      .questions-modal { height: -webkit-fill-available; }
+    }
+
+    /* ==================================================
+       ✅ FINAL RESPONSIVE FIXES (بدون تغییر استایل کلی)
+       ================================================== */
+
+    /* 1) Theme toggle: شما id گذاشتی، ولی CSS روی کلاس بود */
+    #themeToggle{
+      position: fixed;
+      top: max(20px, var(--safe-top));
+      left: max(20px, var(--safe-left));
+      z-index: 100;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--bg-white);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--border-light);
+      transition: all var(--transition-normal);
+      touch-action: manipulation;
+      user-select: none;
+    }
+    @media (max-width: 768px){
+      #themeToggle{
+        width: 44px;
+        height: 44px;
+        top: max(15px, var(--safe-top));
+        left: max(15px, var(--safe-left));
+      }
+    }
+    #themeToggle:hover { transform: rotate(30deg); }
+
+    /* 2) margin های منفی: روی موبایل بهم می‌ریزه */
+    @media (max-width: 768px){
+      header.header{ margin-top: 0 !important; }
+      section.talent-banner{ margin-top: 0 !important; }
+    }
+
+    /* 3) height:70% توی inline روی موبایل مشکل میده */
+    @media (max-width: 768px){
+      .main-layout .event-section{ height: auto !important; }
+    }
+
+    /* 4) event-image: height:80% + margin-top:-5% روی موبایل مشکل‌ساز */
+    @media (max-width: 768px){
+      .event-image{
+        margin-top: 0 !important;
+        height: auto !important;
+        min-height: 180px !important;
+        aspect-ratio: 16/9 !important;
+        background-size: contain !important;
+      }
+    }
+
+    /* 5) عکس 43.png که با margin-top:-20% آمده روی موبایل امن‌تر */
+    @media (max-width: 480px){
+      .event-content img[alt="mehrzad"]{
+        margin-top: 10px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </div>
-    
-    <!-- Header with Hero Banner Slider -->
-    <header class="header">
-        <div class="hero-slider" id="heroSlider">
-            <!-- Slide 1: Robotics -->
-            <div class="slide active" id="slide1" style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8)), url('12.png') center/cover no-repeat;">
-                <div class="slide-content">
-                    <h1>کلاس‌های رباتیک پیشرفته</h1>
-                    <p>آینده را با دستان خود بسازید! در کلاس‌های رباتیک ما، کودکان و نوجوانان با اصول مهندسی، برنامه‌نویسی و خلاقیت آشنا می‌شوند و ربات‌های خود را طراحی و می‌سازند.</p>
-                    <a href="https://mehrandishh.github.io/mehrandish/" class="slide-btn">ثبت‌نام رایگان در دوره رباتیک</a>
-                </div>
-            </div>
-            
-            <!-- Slide 2: Programming -->
-            <div class="slide" id="slide2" style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8)), url('12.png') center/cover no-repeat;">
-                <div class="slide-content">
-                    <h1>آموزش برنامه‌نویسی</h1>
-                    <p>از بازی‌سازی تا طراحی اپلیکیشن! ما برنامه‌نویسی را از پایه تا پیشرفته با متدهای نوین آموزشی به کودکان و نوجوانان آموزش می‌دهیم.</p>
-                    <a href="https://mehrandishh.github.io/mehrandish/" class="slide-btn">شروع یادگیری برنامه‌نویسی</a>
-                </div>
-            </div>
-            
-            <!-- Slide 3: Abacus -->
-            <div class="slide" id="slide3" style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8)), url('12.png') center/cover no-repeat;">
-                <div class="slide-content">
-                    <h1>چرتکه و محاسبات ذهنی</h1>
-                    <p>تقویت هوش ریاضی و سرعت محاسبه! با متد چرتکه ژاپنی، کودکان می‌توانند محاسبات پیچیده را در ذهن خود و با سرعت بالا انجام دهند.</p>
-                    <a href="https://mehrandishh.github.io/mehrandish/" class="slide-btn">ثبت‌نام در دوره چرتکه</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Slider Navigation -->
-        <div class="slider-nav">
-            <button class="nav-btn" id="prevSlide">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <button class="nav-btn" id="nextSlide">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-        </div>
-        
-        <!-- Slide Indicators -->
-        <div class="slide-indicators">
-            <span class="indicator active" data-slide="0"></span>
-            <span class="indicator" data-slide="1"></span>
-            <span class="indicator" data-slide="2"></span>
-        </div>
-    </header>
-    
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Event Registration Section -->
-        <section class="main-layout" >
-            <div class="event-section" style="height: 70% !important;">
-                <div class="event-content">
-                    <h2>رویداد ویژه: خوشمزه پارتی</h2>
-                    <p>اولین رویداد استند آپ کمدی کودکان با حضور بلاگر مطرح سینا شجاعی (تی ناز می گاز)</p>
-                    <p><strong>جوایز:</strong> سکه طلا و چندین جایزه نفیس دیگر</p>
-                    <p><strong>مهلت ثبت‌نام:</strong> تا ۲۲ دی ۱۴۰۴</p>
-                    <a href="https://evand.com/events/%D9%81%D8%B3%D8%AA%DB%8C%D9%88%D8%A7%D9%84-%D9%82%D8%A7%D8%A8%D9%84%D9%85%D9%87-%D9%BE%D8%A7%D8%B1%D8%AA%DB%8C-7096695">
-                      <button class="psychology-btn" id="eventRegisterBtn">
-                          <i class="fas fa-bolt"></i> ثبت‌نام فوری در رویداد
-                      </button>
-                    </a>
-                    <img src="43.png" alt="mehrzad" style="width: 120px; height: 120px; margin: 20px auto 0; display: block; border-radius: 50%; object-fit: cover; border: 3px solid var(--secondary-green); margin-left: 10%; margin-top: -20%;">
-                </div>
-            </div>
-            
-            <!-- Additional Info Cards -->
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="event-image"></div>
-            </div>
-        </section>
-        
-        <!-- Talent Assessment Banner -->
-        <section class="talent-banner animate-in" style="margin-top: -15%" >
-            <div class="talent-content">
-                <h2>استعدادیابی و عارضه‌یابی رایگان</h2>
-                <p>با پر کردن آزمون استعدادیابی زیر، توانمندی‌ها و علایق فرزندتان را شناسایی کنید و از مشاوره رایگان متخصصان ما بهره‌مند شوید. این آزمون به صورت کاملاً علمی طراحی شده و نتایج آن به صورت تحلیلی ارائه می‌شود.</p>
-                <button class="interactive-btn" id="startAssessmentBtn">
-                    <i class="fas fa-play"></i> شروع آزمون استعدادیابی
-                </button>
-            </div>
-        </section>
-        
-        <!-- Video and Questions Section -->
-        <section class="video-questions-section animate-in">
-            <div class="video-container">
-                <div class="video-placeholder">
-                    <video style="width:100%; height:100%; object-fit:cover;" autoplay muted loop playsinline>
-                        <source src="a.mp4" type="video/mp4">
-                        مرورگر شما از ویدیو پشتیبانی نمی‌کند.
-                    </video>
-                </div>
-                <div class="video-info">
-                    <h3>آشنایی با محیط آموزشی ما</h3>
-                    <p>در این ویدیو با فضای آموزشی، امکانات، اساتید و روش‌های تدریس ما آشنا می‌شوید.</p>
-                </div>
-            </div>
-            
-            <div class="questions-container">
-                <div class="questions-header">
-                    <h3>سوالات استعدادیابی</h3>
-                    <span>۵ سوال از ۳۰ سوال</span>
-                </div>
-                
-                <div class="questions-scroll" id="questionsScroll"></div>
-                
-                <div class="show-more-btn" id="showMoreBtn">
-                    <i class="fas fa-chevron-down"></i> برای دستیابی به همه سوالات کلیک کنید
-                </div>
-                
-                <button class="submit-btn" id="submitQuestionsBtn">
-                    <i class="fas fa-paper-plane"></i> ارسال پاسخ‌ها
-                </button>
-            </div>
-        </section>
-    </main>
-    
-    <!-- Full Questions Modal -->
-    <div class="questions-modal" id="questionsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>آزمون کامل استعدادیابی (۳۰ سوال)</h3>
-                <button class="close-modal" id="closeModalBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+  <!-- Theme Toggle -->
+  <div id="themeToggle" role="button" tabindex="0" aria-label="تغییر تم">
+    <i class="fas fa-moon"></i>
+  </div>
 
-            <!-- ✅ فرم اطلاعات -->
-            <div class="user-form">
-                <div class="user-form-title">
-                    <i class="fas fa-id-card"></i> اطلاعات جهت ارسال نتایج
-                </div>
+  <!-- Header with Hero Banner Slider -->
+  <header class="header" style="margin-top: -2%;">
+    <div class="hero-slider" id="heroSlider">
+      <!-- Slide 1: Robotics -->
+      <div class="slide active" id="slide1" style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8)), url('12.png') center/cover no-repeat;">
+        <div class="slide-content">
+          <h1>کلاس‌های رباتیک پیشرفته</h1>
+          <p>آینده را با دستان خود بسازید! در کلاس‌های رباتیک ما، کودکان و نوجوانان با اصول مهندسی، برنامه‌نویسی و خلاقیت آشنا می‌شوند و ربات‌های خود را طراحی و می‌سازند.</p>
+          <a href="https://mehrandishh.github.io/mehrandish/" class="slide-btn">ثبت‌نام رایگان در دوره رباتیک</a>
+        </div>
+      </div>
 
-                <div class="user-form-grid">
-                    <div class="field">
-                        <label for="firstName">نام</label>
-                        <input id="firstName" type="text" placeholder="مثلاً: علی" autocomplete="given-name">
-                    </div>
-                    <div class="field">
-                        <label for="lastName">نام خانوادگی</label>
-                        <input id="lastName" type="text" placeholder="مثلاً: رضایی" autocomplete="family-name">
-                    </div>
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label for="phone">شماره تماس</label>
-                        <input id="phone" type="tel" placeholder="مثلاً: 09123456789" inputmode="tel" autocomplete="tel">
-                        <div class="form-hint">شماره باید ۱۱ رقم و با 09 شروع شود.</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="fullQuestionsList"></div>
-            
-            <button class="submit-btn" style="width: 100%; margin-top: 30px;" id="submitFullQuestionsBtn">
-                <i class="fas fa-check-circle"></i> ارسال نهایی پاسخ‌ها
+      <!-- Slide 2: Programming -->
+      <div class="slide" id="slide2" style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8)), url('12.png') center/cover no-repeat;">
+        <div class="slide-content">
+          <h1>آموزش برنامه‌نویسی</h1>
+          <p>از بازی‌سازی تا طراحی اپلیکیشن! ما برنامه‌نویسی را از پایه تا پیشرفته با متدهای نوین آموزشی به کودکان و نوجوانان آموزش می‌دهیم.</p>
+          <a href="https://mehrandishh.github.io/mehrandish/" class="slide-btn">شروع یادگیری برنامه‌نویسی</a>
+        </div>
+      </div>
+
+      <!-- Slide 3: Abacus -->
+      <div class="slide" id="slide3" style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8)), url('12.png') center/cover no-repeat;">
+        <div class="slide-content">
+          <h1>چرتکه و محاسبات ذهنی</h1>
+          <p>تقویت هوش ریاضی و سرعت محاسبه! با متد چرتکه ژاپنی، کودکان می‌توانند محاسبات پیچیده را در ذهن خود و با سرعت بالا انجام دهند.</p>
+          <a href="https://mehrandishh.github.io/mehrandish/" class="slide-btn">ثبت‌نام در دوره چرتکه</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slider Navigation -->
+    <div class="slider-nav">
+      <button class="nav-btn" id="prevSlide" aria-label="اسلاید قبلی">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <button class="nav-btn" id="nextSlide" aria-label="اسلاید بعدی">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </div>
+
+    <!-- Slide Indicators -->
+    <div class="slide-indicators">
+      <span class="indicator active" data-slide="0"></span>
+      <span class="indicator" data-slide="1"></span>
+      <span class="indicator" data-slide="2"></span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Event Registration Section -->
+    <section class="main-layout">
+      <div class="event-section" style="height: 70% !important;">
+        <div class="event-content">
+          <h2>رویداد ویژه: خوشمزه پارتی</h2>
+          <p>اولین رویداد استند آپ کمدی کودکان با حضور بلاگر مطرح مهرزاد شجاعی (تی ناز می گاز)</p>
+          <p><strong>جوایز:</strong> سکه طلا و چندین جایزه نفیس دیگر</p>
+          <p><strong>مهلت ثبت‌نام:</strong> تا ۲۲ دی ۱۴۰۴</p>
+          <a href="https://evand.com/events/%D9%81%D8%B3%D8%AA%DB%8C%D9%88%D8%A7%D9%84-%D9%82%D8%A7%D8%A8%D9%84%D9%85%D9%87-%D9%پ%D8%A7%D8%B1%D8%ت%DB%8C-7096695">
+            <button class="psychology-btn" id="eventRegisterBtn">
+              <i class="fas fa-bolt"></i> ثبت‌نام فوری در رویداد
             </button>
+          </a>
+
+          <img src="43.png" alt="mehrzad"
+               style="width: 120px; height: 120px; margin: 20px auto 0; display: block; border-radius: 50%; object-fit: cover; border: 3px solid var(--secondary-green); margin-left: 10%; margin-top: -20%;">
         </div>
-    </div>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h4>درباره ما</h4>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-history"></i> تاریخچه</a></li>
-                        <li><a href="#"><i class="fas fa-bullseye"></i> چشم‌انداز و ماموریت</a></li>
-                        <li><a href="#"><i class="fas fa-award"></i> افتخارات</a></li>
-                        <li><a href="#"><i class="fas fa-newspaper"></i> اخبار و مقالات</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>دوره‌های آموزشی</h4>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-robot"></i> رباتیک</a></li>
-                        <li><a href="#"><i class="fas fa-code"></i> برنامه‌نویسی</a></li>
-                        <li><a href="#"><i class="fas fa-calculator"></i> چرتکه</a></li>
-                        <li><a href="#"><i class="fas fa-brain"></i> تقویت ذهن</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>خدمات ویژه</h4>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-user-graduate"></i> استعدادیابی</a></li>
-                        <li><a href="#"><i class="fas fa-headset"></i> مشاوره رایگان</a></li>
-                        <li><a href="#"><i class="fas fa-calendar-alt"></i> کارگاه‌های ویژه</a></li>
-                        <li><a href="#"><i class="fas fa-trophy"></i> مسابقات</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>ارتباط با ما</h4>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> آدرس: گلسار خیابان ۸۷ آموزشکاه مهراندیش</a></li>
-                        <li><a href="tel:+981332126816"><i class="fas fa-phone"></i> تلفن: ۰۱۳۳۲۱۲۶۸۱۶</a></li>
-                        <li><a href="mailto:mehrandishorg@gmail.com"><i class="fas fa-envelope"></i> ایمیل: mehrandishorg@gmail.com</a></li>
-                        <li><a href="https://www.instagram.com/mehrandishcomplex?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fab fa-instagram"></i> اینستاگرام</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>:) Made It By Mehrab Amouei (MAS)</p>
-            </div>
+      </div>
+
+      <!-- Additional Info Cards -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="event-image"></div>
+      </div>
+    </section>
+
+    <!-- Talent Assessment Banner -->
+    <section class="talent-banner animate-in" style="margin-top: -15%">
+      <div class="talent-content">
+        <h2>استعدادیابی و عارضه‌یابی رایگان</h2>
+        <p>با پر کردن آزمون استعدادیابی زیر، توانمندی‌ها و علایق فرزندتان را شناسایی کنید و از مشاوره رایگان متخصصان ما بهره‌مند شوید. این آزمون به صورت کاملاً علمی طراحی شده و نتایج آن به صورت تحلیلی ارائه می‌شود.</p>
+        <button class="interactive-btn" id="startAssessmentBtn">
+          <i class="fas fa-play"></i> شروع آزمون استعدادیابی
+        </button>
+      </div>
+    </section>
+
+    <!-- Video and Questions Section -->
+    <section class="video-questions-section animate-in">
+      <div class="video-container">
+        <div class="video-placeholder">
+          <video style="width:100%; height:100%; object-fit:cover;" autoplay muted loop playsinline>
+            <source src="a.mp4" type="video/mp4">
+            مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+          </video>
         </div>
-    </footer>
-    
-    <!-- Success Message -->
-    <div class="success-message" id="successMessage">
-        <i class="fas fa-check-circle"></i> اطلاعات شما با موفقیت ثبت شد!
+        <div class="video-info">
+          <h3>آشنایی با محیط آموزشی ما</h3>
+          <p>در این ویدیو با فضای آموزشی، امکانات، اساتید و روش‌های تدریس ما آشنا می‌شوید.</p>
+        </div>
+      </div>
+
+      <div class="questions-container">
+        <div class="questions-header">
+          <h3>سوالات استعدادیابی</h3>
+          <span>۵ سوال از ۳۰ سوال</span>
+        </div>
+
+        <div class="questions-scroll" id="questionsScroll"></div>
+
+        <div class="show-more-btn" id="showMoreBtn">
+          <i class="fas fa-chevron-down"></i> برای دستیابی به همه سوالات کلیک کنید
+        </div>
+
+        <button class="submit-btn" id="submitQuestionsBtn">
+          <i class="fas fa-paper-plane"></i> ارسال پاسخ‌ها
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Full Questions Modal -->
+  <div class="questions-modal" id="questionsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>آزمون کامل استعدادیابی (۳۰ سوال)</h3>
+        <button class="close-modal" id="closeModalBtn" aria-label="بستن">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- ✅ فرم اطلاعات -->
+      <div class="user-form">
+        <div class="user-form-title">
+          <i class="fas fa-id-card"></i> اطلاعات جهت ارسال نتایج
+        </div>
+
+        <div class="user-form-grid">
+          <div class="field">
+            <label for="firstName">نام</label>
+            <input id="firstName" type="text" placeholder="مثلاً: علی" autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label for="lastName">نام خانوادگی</label>
+            <input id="lastName" type="text" placeholder="مثلاً: رضایی" autocomplete="family-name">
+          </div>
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="phone">شماره تماس</label>
+            <input id="phone" type="tel" placeholder="مثلاً: 09123456789" inputmode="tel" autocomplete="tel">
+            <div class="form-hint">شماره باید ۱۱ رقم و با 09 شروع شود.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="fullQuestionsList"></div>
+
+      <button class="submit-btn" style="width: 100%; margin-top: 30px;" id="submitFullQuestionsBtn">
+        <i class="fas fa-check-circle"></i> ارسال نهایی پاسخ‌ها
+      </button>
     </div>
-    
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('i');
-        
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            themeIcon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-            localStorage.setItem('theme', newTheme);
-        });
-        
-        // Set initial theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        themeIcon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-        
-        // Hero Slider
-        const slides = document.querySelectorAll('.slide');
-        const indicators = document.querySelectorAll('.indicator');
-        const prevBtn = document.getElementById('prevSlide');
-        const nextBtn = document.getElementById('nextSlide');
-        let currentSlide = 0;
-        let slideInterval;
-        let isTouchDevice = 'ontouchstart' in window;
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            indicators.forEach(indicator => indicator.classList.remove('active'));
-            slides[index].classList.add('active');
-            indicators[index].classList.add('active');
-            currentSlide = index;
-        }
-        
-        function nextSlide() {
-            let nextIndex = currentSlide + 1;
-            if (nextIndex >= slides.length) nextIndex = 0;
-            showSlide(nextIndex);
-        }
-        
-        function prevSlide() {
-            let prevIndex = currentSlide - 1;
-            if (prevIndex < 0) prevIndex = slides.length - 1;
-            showSlide(prevIndex);
-        }
-        
-        function startSlider() {
-            slideInterval = setInterval(nextSlide, 10000);
-        }
-        
-        function stopSlider() {
-            clearInterval(slideInterval);
-        }
-        
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            stopSlider();
-            startSlider();
-        });
-        
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            stopSlider();
-            startSlider();
-        });
-        
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                showSlide(index);
-                stopSlider();
-                startSlider();
-            });
-        });
-        
-        // Touch swipe support for mobile
-        if (isTouchDevice) {
-            const slider = document.getElementById('heroSlider');
-            
-            slider.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                stopSlider();
-            }, { passive: true });
-            
-            slider.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-                startSlider();
-            }, { passive: true });
-            
-            function handleSwipe() {
-                const swipeThreshold = 50;
-                const difference = touchStartX - touchEndX;
-                
-                if (Math.abs(difference) > swipeThreshold) {
-                    if (difference > 0) {
-                        // Swipe left - next slide
-                        nextSlide();
-                    } else {
-                        // Swipe right - previous slide
-                        prevSlide();
-                    }
-                }
-            }
-        }
-        
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h4>درباره ما</h4>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-history"></i> تاریخچه</a></li>
+            <li><a href="#"><i class="fas fa-bullseye"></i> چشم‌انداز و ماموریت</a></li>
+            <li><a href="#"><i class="fas fa-award"></i> افتخارات</a></li>
+            <li><a href="#"><i class="fas fa-newspaper"></i> اخبار و مقالات</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>دوره‌های آموزشی</h4>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-robot"></i> رباتیک</a></li>
+            <li><a href="#"><i class="fas fa-code"></i> برنامه‌نویسی</a></li>
+            <li><a href="#"><i class="fas fa-calculator"></i> چرتکه</a></li>
+            <li><a href="#"><i class="fas fa-brain"></i> تقویت ذهن</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>خدمات ویژه</h4>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-user-graduate"></i> استعدادیابی</a></li>
+            <li><a href="#"><i class="fas fa-headset"></i> مشاوره رایگان</a></li>
+            <li><a href="#"><i class="fas fa-calendar-alt"></i> کارگاه‌های ویژه</a></li>
+            <li><a href="#"><i class="fas fa-trophy"></i> مسابقات</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>ارتباط با ما</h4>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-map-marker-alt"></i> آدرس: گلسار خیابان ۸۷ آموزشکاه مهراندیش</a></li>
+            <li><a href="tel:+981332126816"><i class="fas fa-phone"></i> تلفن: ۰۱۳۳۲۱۲۶۸۱۶</a></li>
+            <li><a href="mailto:mehrandishorg@gmail.com"><i class="fas fa-envelope"></i> ایمیل: mehrandishorg@gmail.com</a></li>
+            <li><a href="https://www.instagram.com/mehrandishcomplex?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fab fa-instagram"></i> اینستاگرام</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>:) Made It By Mehrab Amouei (MAS)</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Success Message -->
+  <div class="success-message" id="successMessage">
+    <i class="fas fa-check-circle"></i> اطلاعات شما با موفقیت ثبت شد!
+  </div>
+
+  <script>
+    /* ============================
+       ✅ Theme Toggle (FIXED)
+       ============================ */
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('i');
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeIcon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+      localStorage.setItem('theme', theme);
+    }
+
+    applyTheme(localStorage.getItem('theme') || 'light');
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+    });
+
+    themeToggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        themeToggle.click();
+      }
+    });
+
+    /* ============================
+       Hero Slider
+       ============================ */
+    const slides = document.querySelectorAll('.slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    let currentSlide = 0;
+    let slideInterval;
+    let isTouchDevice = 'ontouchstart' in window;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      indicators.forEach(indicator => indicator.classList.remove('active'));
+      slides[index].classList.add('active');
+      indicators[index].classList.add('active');
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      let nextIndex = currentSlide + 1;
+      if (nextIndex >= slides.length) nextIndex = 0;
+      showSlide(nextIndex);
+    }
+
+    function prevSlide() {
+      let prevIndex = currentSlide - 1;
+      if (prevIndex < 0) prevIndex = slides.length - 1;
+      showSlide(prevIndex);
+    }
+
+    function startSlider() { slideInterval = setInterval(nextSlide, 10000); }
+    function stopSlider() { clearInterval(slideInterval); }
+
+    nextBtn.addEventListener('click', () => { nextSlide(); stopSlider(); startSlider(); });
+    prevBtn.addEventListener('click', () => { prevSlide(); stopSlider(); startSlider(); });
+
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        showSlide(index);
+        stopSlider();
         startSlider();
-        
-        const slider = document.getElementById('heroSlider');
-        slider.addEventListener('mouseenter', stopSlider);
-        slider.addEventListener('mouseleave', startSlider);
-        
-        /***********************
-         * Questions (30 items) - YES/NO
-         ***********************/
-        const QUESTIONS = [
-          { text: "آیا کودک شما وقتی کاری را شروع می‌کند، دوست دارد آن را تا آخر انجام دهد؟", hint: "نشانه: پشتکار، تمرکز" },
-          { text: "آیا وقتی با مشکل یا چالش روبه‌رو می‌شود، سعی می‌کند راه‌حل پیدا کند؟", hint: "نشانه: حل مسئله، انعطاف‌پذیری" },
-          { text: "آیا به احساسات دیگران توجه نشان می‌دهد؟", hint: "نشانه: همدلی، هوش هیجانی" },
-          { text: "آیا در بازی‌ها یا فعالیت‌ها ایده‌های جدید مطرح می‌کند؟", hint: "نشانه: خلاقیت" },
-          { text: "آیا می‌تواند احساساتش را با کلمات یا رفتار مناسب بیان کند؟", hint: "نشانه: خودآگاهی، بیان هیجانی" },
-          { text: "آیا در جمع (خانواده یا همسالان) راحت ارتباط برقرار می‌کند؟", hint: "نشانه: مهارت اجتماعی" },
-          { text: "آیا بعد از اشتباه، دوباره تلاش می‌کند؟", hint: "نشانه: تاب‌آوری" },
-          { text: "آیا علایق مشخصی دارد که با انگیزه دنبالش می‌کند؟", hint: "نشانه: انگیزه درونی، استعداد بالقوه" },
-          { text: "آیا کودک شما زود ناامید می‌شود و کار را نیمه‌کاره رها می‌کند؟", hint: "نشانه: تحمل پایین ناکامی" },
+      });
+    });
 
-          { text: "آیا در برابر «نه» شنیدن، واکنش شدید نشان می‌دهد؟", hint: "نشانه: ضعف در تنظیم هیجان" },
-          { text: "آیا مسئولیت اشتباهاتش را به سختی می‌پذیرد؟", hint: "نشانه: فرار از مسئولیت" },
-          { text: "آیا برای شروع کارها دائماً نیاز به هل دادن و یادآوری دارد؟", hint: "نشانه: انگیزه بیرونی بالا، خودانگیختگی پایین" },
-          { text: "آیا در بیان احساساتش بیشتر پرخاشگری یا سکوت دارد تا حرف زدن؟", hint: "نشانه: ضعف بیان هیجانی" },
-          { text: "آیا به سختی با تغییر برنامه یا شرایط جدید کنار می‌آید؟", hint: "نشانه: انعطاف‌پذیری پایین" },
-          { text: "آیا بیش از حد به تأیید دیگران وابسته است؟", hint: "نشانه: عزت‌نفس شکننده" },
-          { text: "آیا خشم او معمولاً به صورت فریاد، پرخاشگری یا آسیب زدن به اشیا بروز می‌کند؟", hint: "نشانه: تخلیه هیجانی ناسالم" },
-          { text: "آیا بعد از آرام شدن، نمی‌تواند توضیح دهد چرا عصبانی شده است؟", hint: "نشانه: آگاهی هیجانی پایین" },
-          { text: "آیا در برابر حد و مرز (نه گفتن، قانون، محدودیت) سریع عصبانی می‌شود؟", hint: "نشانه: مرزپذیری ضعیف" },
-          { text: "آیا خشم خود را طولانی نگه می‌دارد و به سختی رها می‌کند؟", hint: "نشانه: نشخوار هیجانی" },
+    // Touch swipe support for mobile
+    if (isTouchDevice) {
+      const slider = document.getElementById('heroSlider');
 
-          { text: "آیا کودک شما می‌تواند به‌راحتی به بازی بچه‌های دیگر وارد شود؟", hint: "نشانه: شروع تعامل اجتماعی" },
-          { text: "آیا خودش برای بازی کردن، بچه‌های دیگر را دعوت می‌کند？", hint: "نشانه: پیش‌قدمی اجتماعی" },
-          { text: "آیا در بازی‌های گروهی می‌تواند نوبت را رعایت کند？", hint: "نشانه: پذیرش قانون و تعامل سالم" },
-          { text: "آیا بعد از اختلاف، دوباره می‌تواند به بازی یا دوستی برگردد？", hint: "نشانه: ترمیم رابطه" },
-          { text: "آیا دوستان نسبتاً ثابتی دارد？", hint: "نشانه: توانایی حفظ رابطه" },
+      slider.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        stopSlider();
+      }, { passive: true });
 
-          { text: "آیا کودک شما می‌تواند دستور شفاهی ساده را بدون تکرار انجام دهد？", hint: "دریافت شنیداری" },
-          { text: "آیا هنگام گوش دادن، حواسش به‌راحتی با صداهای اطراف پرت نمی‌شود？", hint: "تمرکز شنیداری" },
-          { text: "آیا آهنگ صدا، لحن یا عصبانیت در صدای دیگران را تشخیص می‌دهد؟", hint: "تمایز شنیداری–هیجانی" },
-          { text: "آیا کودک شما می‌تواند با دیدن الگو یا مثال، آن را تقلید کند？", hint: "دریافت دیداری" },
-          { text: "آیا کودک می‌تواند یک اتفاق را با ترتیب درست (اول… بعد… آخر…) تعریف کند؟", hint: "" },
-          { text: "آیا می‌تواند شباهت یا تفاوت دو چیز را با کلمات توضیح دهد (مثلاً چرا این دو تا فرق دارند)？", hint: "" }
-        ];
+      slider.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+        startSlider();
+      }, { passive: true });
 
-        const allQuestions = QUESTIONS.map((q, i) => ({
-          id: i + 1,
-          text: q.text,
-          hint: q.hint || ""
-        }));
-
-        const questionsScroll = document.getElementById('questionsScroll');
-        const fullQuestionsList = document.getElementById('fullQuestionsList');
-        const questionsModal = document.getElementById('questionsModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const showMoreBtn = document.getElementById('showMoreBtn');
-        const submitQuestionsBtn = document.getElementById('submitQuestionsBtn');
-        const submitFullQuestionsBtn = document.getElementById('submitFullQuestionsBtn');
-        const successMessage = document.getElementById('successMessage');
-
-        // ✅ inputs
-        const firstNameInput = document.getElementById('firstName');
-        const lastNameInput  = document.getElementById('lastName');
-        const phoneInput     = document.getElementById('phone');
-
-        (function syncCounts(){
-          const headerSpan = document.querySelector('.questions-header span');
-          if(headerSpan) headerSpan.textContent = `۵ سوال از ${allQuestions.length} سوال`;
-
-          const modalTitle = document.querySelector('#questionsModal .modal-header h3');
-          if(modalTitle) modalTitle.textContent = `آزمون کامل استعدادیابی (${allQuestions.length} سوال)`;
-        })();
-
-        function renderQuestions(questions, container, isFull = false) {
-          container.innerHTML = '';
-
-          questions.forEach((question) => {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question-item';
-
-            questionDiv.innerHTML = `
-              <div class="question-number">${question.id}</div>
-              <div class="question-text">${question.text}</div>
-              ${question.hint ? `<div style="color: var(--text-light); font-weight:700; margin:-6px 0 12px; font-size: 0.9rem;">(${question.hint})</div>` : ""}
-              <div class="options">
-                ${["بله", "خیر"].map((label, optIndex) => `
-                  <label class="option">
-                    <input type="radio"
-                           name="question_${question.id}"
-                           value="${optIndex === 0 ? "yes" : "no"}"
-                           ${isFull ? 'data-full="true"' : ''}>
-                    <span>${label}</span>
-                  </label>
-                `).join('')}
-              </div>
-            `;
-
-            container.appendChild(questionDiv);
-          });
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        const difference = touchStartX - touchEndX;
+        if (Math.abs(difference) > swipeThreshold) {
+          if (difference > 0) nextSlide();
+          else prevSlide();
         }
+      }
+    }
 
-        renderQuestions(allQuestions.slice(0, 5), questionsScroll);
-        renderQuestions(allQuestions, fullQuestionsList, true);
+    startSlider();
 
-        showMoreBtn.addEventListener('click', () => {
-          questionsModal.style.display = 'block';
-          document.body.style.overflow = 'hidden';
-          document.documentElement.style.overflow = 'hidden';
-          
-          // Scroll to top of modal
-          setTimeout(() => {
-            questionsModal.scrollTop = 0;
-          }, 100);
-        });
+    const slider = document.getElementById('heroSlider');
+    slider.addEventListener('mouseenter', stopSlider);
+    slider.addEventListener('mouseleave', startSlider);
 
-        closeModalBtn.addEventListener('click', () => {
-          questionsModal.style.display = 'none';
-          document.body.style.overflow = 'auto';
-          document.documentElement.style.overflow = 'auto';
-        });
+    /***********************
+     * Questions (30 items) - YES/NO
+     ***********************/
+    const QUESTIONS = [
+      { text: "آیا کودک شما وقتی کاری را شروع می‌کند، دوست دارد آن را تا آخر انجام دهد؟", hint: "نشانه: پشتکار، تمرکز" },
+      { text: "آیا وقتی با مشکل یا چالش روبه‌رو می‌شود، سعی می‌کند راه‌حل پیدا کند؟", hint: "نشانه: حل مسئله، انعطاف‌پذیری" },
+      { text: "آیا به احساسات دیگران توجه نشان می‌دهد؟", hint: "نشانه: همدلی، هوش هیجانی" },
+      { text: "آیا در بازی‌ها یا فعالیت‌ها ایده‌های جدید مطرح می‌کند؟", hint: "نشانه: خلاقیت" },
+      { text: "آیا می‌تواند احساساتش را با کلمات یا رفتار مناسب بیان کند؟", hint: "نشانه: خودآگاهی، بیان هیجانی" },
+      { text: "آیا در جمع (خانواده یا همسالان) راحت ارتباط برقرار می‌کند؟", hint: "نشانه: مهارت اجتماعی" },
+      { text: "آیا بعد از اشتباه، دوباره تلاش می‌کند؟", hint: "نشانه: تاب‌آوری" },
+      { text: "آیا علایق مشخصی دارد که با انگیزه دنبالش می‌کند؟", hint: "نشانه: انگیزه درونی، استعداد بالقوه" },
+      { text: "آیا کودک شما زود ناامید می‌شود و کار را نیمه‌کاره رها می‌کند؟", hint: "نشانه: تحمل پایین ناکامی" },
 
-        questionsModal.addEventListener('click', (e) => {
-          if (e.target === questionsModal) {
-            questionsModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
-          }
-        });
+      { text: "آیا در برابر «نه» شنیدن، واکنش شدید نشان می‌دهد؟", hint: "نشانه: ضعف در تنظیم هیجان" },
+      { text: "آیا مسئولیت اشتباهاتش را به سختی می‌پذیرد؟", hint: "نشانه: فرار از مسئولیت" },
+      { text: "آیا برای شروع کارها دائماً نیاز به هل دادن و یادآوری دارد؟", hint: "نشانه: انگیزه بیرونی بالا، خودانگیختگی پایین" },
+      { text: "آیا در بیان احساساتش بیشتر پرخاشگری یا سکوت دارد تا حرف زدن؟", hint: "نشانه: ضعف بیان هیجانی" },
+      { text: "آیا به سختی با تغییر برنامه یا شرایط جدید کنار می‌آید؟", hint: "نشانه: انعطاف‌پذیری پایین" },
+      { text: "آیا بیش از حد به تأیید دیگران وابسته است؟", hint: "نشانه: عزت‌نفس شکننده" },
+      { text: "آیا خشم او معمولاً به صورت فریاد، پرخاشگری یا آسیب زدن به اشیا بروز می‌کند؟", hint: "نشانه: تخلیه هیجانی ناسالم" },
+      { text: "آیا بعد از آرام شدن، نمی‌تواند توضیح دهد چرا عصبانی شده است؟", hint: "نشانه: آگاهی هیجانی پایین" },
+      { text: "آیا در برابر حد و مرز (نه گفتن، قانون، محدودیت) سریع عصبانی می‌شود؟", hint: "نشانه: مرزپذیری ضعیف" },
+      { text: "آیا خشم خود را طولانی نگه می‌دارد و به سختی رها می‌کند؟", hint: "نشانه: نشخوار هیجانی" },
 
-        // Close modal on escape key
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && questionsModal.style.display === 'block') {
-            questionsModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
-          }
-        });
+      { text: "آیا کودک شما می‌تواند به‌راحتی به بازی بچه‌های دیگر وارد شود؟", hint: "نشانه: شروع تعامل اجتماعی" },
+      { text: "آیا خودش برای بازی کردن، بچه‌های دیگر را دعوت می‌کند؟", hint: "نشانه: پیش‌قدمی اجتماعی" },
+      { text: "آیا در بازی‌های گروهی می‌تواند نوبت را رعایت کند؟", hint: "نشانه: پذیرش قانون و تعامل سالم" },
+      { text: "آیا بعد از اختلاف، دوباره می‌تواند به بازی یا دوستی برگردد؟", hint: "نشانه: ترمیم رابطه" },
+      { text: "آیا دوستان نسبتاً ثابتی دارد؟", hint: "نشانه: توانایی حفظ رابطه" },
 
-        function showSuccessMessage() {
-          successMessage.style.display = 'block';
-          setTimeout(() => successMessage.style.display = 'none', 5000);
-        }
+      { text: "آیا کودک شما می‌تواند دستور شفاهی ساده را بدون تکرار انجام دهد؟", hint: "دریافت شنیداری" },
+      { text: "آیا هنگام گوش دادن، حواسش به‌راحتی با صداهای اطراف پرت نمی‌شود؟", hint: "تمرکز شنیداری" },
+      { text: "آیا آهنگ صدا، لحن یا عصبانیت در صدای دیگران را تشخیص می‌دهد؟", hint: "تمایز شنیداری–هیجانی" },
+      { text: "آیا کودک شما می‌تواند با دیدن الگو یا مثال، آن را تقلید کند؟", hint: "دریافت دیداری" },
+      { text: "آیا کودک می‌تواند یک اتفاق را با ترتیب درست (اول… بعد… آخر…) تعریف کند؟", hint: "" },
+      { text: "آیا می‌تواند شباهت یا تفاوت دو چیز را با کلمات توضیح دهد (مثلاً چرا این دو تا فرق دارند)؟", hint: "" }
+    ];
 
-        function collectAnswers(isFull = false) {
-          const answers = {};
-          const selector = isFull ? 'input[data-full="true"]:checked' : 'input:not([data-full]):checked';
-          const checkedInputs = document.querySelectorAll(selector);
+    const allQuestions = QUESTIONS.map((q, i) => ({ id: i + 1, text: q.text, hint: q.hint || "" }));
 
-          if (checkedInputs.length === 0) {
-            alert('لطفاً حداقل به یک سوال پاسخ دهید.');
-            return null;
-          }
+    const questionsScroll = document.getElementById('questionsScroll');
+    const fullQuestionsList = document.getElementById('fullQuestionsList');
+    const questionsModal = document.getElementById('questionsModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const showMoreBtn = document.getElementById('showMoreBtn');
+    const submitQuestionsBtn = document.getElementById('submitQuestionsBtn');
+    const submitFullQuestionsBtn = document.getElementById('submitFullQuestionsBtn');
+    const successMessage = document.getElementById('successMessage');
 
-          checkedInputs.forEach(input => {
-            const questionId = input.name.replace('question_', '');
-            answers[questionId] = (input.value === "yes");
-          });
+    const firstNameInput = document.getElementById('firstName');
+    const lastNameInput  = document.getElementById('lastName');
+    const phoneInput     = document.getElementById('phone');
 
-          if (isFull) {
-            const total = allQuestions.length;
-            const answered = Object.keys(answers).length;
-            if (answered !== total) {
-              alert(`لطفاً به همه سوالات پاسخ دهید. (${answered} از ${total})`);
-              return null;
-            }
-          }
+    (function syncCounts(){
+      const headerSpan = document.querySelector('.questions-header span');
+      if(headerSpan) headerSpan.textContent = `۵ سوال از ${allQuestions.length} سوال`;
 
-          return answers;
-        }
+      const modalTitle = document.querySelector('#questionsModal .modal-header h3');
+      if(modalTitle) modalTitle.textContent = `آزمون کامل استعدادیابی (${allQuestions.length} سوال)`;
+    })();
 
-        // ✅ اعتبارسنجی فرم اطلاعات
-        function validateUserInfo() {
-          const firstName = (firstNameInput.value || '').trim();
-          const lastName  = (lastNameInput.value || '').trim();
-          const phoneRaw  = (phoneInput.value || '').trim();
-          const phone = phoneRaw.replace(/\s|-/g, '');
+    function renderQuestions(questions, container, isFull = false) {
+      container.innerHTML = '';
+      questions.forEach((question) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question-item';
 
-          if (!firstName) { alert('لطفاً نام را وارد کنید.'); firstNameInput.focus(); return null; }
-          if (!lastName)  { alert('لطفاً نام خانوادگی را وارد کنید.'); lastNameInput.focus(); return null; }
-          if (!/^09\d{9}$/.test(phone)) { alert('شماره تماس معتبر نیست. نمونه: 09123456789'); phoneInput.focus(); return null; }
-
-          return { firstName, lastName, phone };
-        }
-
-        function submitAnswers(isFull = false) {
-          const answers = collectAnswers(isFull);
-          if (!answers) return;
-
-          // ✅ فقط برای ارسال نهایی، فرم اطلاعات اجباری است
-          let userInfo = null;
-          if (isFull) {
-            userInfo = validateUserInfo();
-            if (!userInfo) return;
-          }
-
-          const payload = {
-            user: userInfo, // در ارسال نهایی پر می‌شود
-            answers
-          };
-
-          console.log('Submitted payload:', payload);
-
-          setTimeout(() => {
-            showSuccessMessage();
-
-            if (isFull) {
-              questionsModal.style.display = 'none';
-              document.body.style.overflow = 'auto';
-              document.documentElement.style.overflow = 'auto';
-              
-              // Reset form
-              firstNameInput.value = '';
-              lastNameInput.value = '';
-              phoneInput.value = '';
-            }
-
-            // Reset answers
-            if (isFull) {
-              document.querySelectorAll('input[data-full="true"]').forEach(input => input.checked = false);
-            } else {
-              document.querySelectorAll('input:not([data-full])').forEach(input => input.checked = false);
-            }
-          }, 400);
-        }
-
-        submitQuestionsBtn.addEventListener('click', () => submitAnswers(false));
-        submitFullQuestionsBtn.addEventListener('click', () => submitAnswers(true));
-
-        const startAssessmentBtn = document.getElementById('startAssessmentBtn');
-        startAssessmentBtn.addEventListener('click', () => {
-            questionsModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
-            
-            // Scroll to top of modal
-            setTimeout(() => {
-              questionsModal.scrollTop = 0;
-            }, 100);
-        });
-
-        const animateElements = document.querySelectorAll('.animate-in');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        animateElements.forEach(element => {
-            element.style.animationPlayState = 'paused';
-            observer.observe(element);
-        });
-
-        // Improved ripple effect for buttons
-        const interactiveButtons = document.querySelectorAll('.interactive-btn, .psychology-btn, .slide-btn, .submit-btn, .nav-btn');
-        interactiveButtons.forEach(button => {
-            button.addEventListener('mousedown', function(e) {
-                if (isTouchDevice) return; // Skip ripple on touch devices for better performance
-                
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.cssText = `
-                    position: absolute;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.7);
-                    transform: scale(0);
-                    animation: ripple-animation 0.6s linear;
-                    width: ${size}px;
-                    height: ${size}px;
-                    top: ${y}px;
-                    left: ${x}px;
-                    pointer-events: none;
-                    z-index: 1;
-                `;
-                
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    if (ripple.parentNode === this) {
-                        this.removeChild(ripple);
-                    }
-                }, 600);
-            });
-        });
-
-        // Add ripple animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple-animation {
-                to { transform: scale(4); opacity: 0; }
-            }
+        questionDiv.innerHTML = `
+          <div class="question-number">${question.id}</div>
+          <div class="question-text">${question.text}</div>
+          ${question.hint ? `<div style="color: var(--text-light); font-weight:700; margin:-6px 0 12px; font-size: 0.9rem;">(${question.hint})</div>` : ""}
+          <div class="options">
+            ${["بله", "خیر"].map((label, optIndex) => `
+              <label class="option">
+                <input type="radio"
+                       name="question_${question.id}"
+                       value="${optIndex === 0 ? "yes" : "no"}"
+                       ${isFull ? 'data-full="true"' : ''}>
+                <span>${label}</span>
+              </label>
+            `).join('')}
+          </div>
         `;
-        document.head.appendChild(style);
 
-        // Prevent form submission on enter key in inputs
-        const formInputs = document.querySelectorAll('.field input');
-        formInputs.forEach(input => {
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                }
-            });
-        });
+        container.appendChild(questionDiv);
+      });
+    }
 
-        // Improve mobile scrolling in questions modal
-        const modalContent = document.querySelector('.modal-content');
-        if (modalContent) {
-            let isScrolling = false;
-            
-            modalContent.addEventListener('touchstart', () => {
-                isScrolling = false;
-            }, { passive: true });
-            
-            modalContent.addEventListener('touchmove', () => {
-                isScrolling = true;
-            }, { passive: true });
-            
-            modalContent.addEventListener('touchend', (e) => {
-                if (!isScrolling) {
-                    const target = e.target;
-                    if (target.tagName === 'INPUT' || target.tagName === 'LABEL') {
-                        target.focus();
-                    }
-                }
-            }, { passive: true });
+    renderQuestions(allQuestions.slice(0, 5), questionsScroll);
+    renderQuestions(allQuestions, fullQuestionsList, true);
+
+    function openModal(){
+      questionsModal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      setTimeout(() => { questionsModal.scrollTop = 0; }, 100);
+    }
+
+    function closeModal(){
+      questionsModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    }
+
+    showMoreBtn.addEventListener('click', openModal);
+    document.getElementById('startAssessmentBtn').addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+
+    questionsModal.addEventListener('click', (e) => {
+      if (e.target === questionsModal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && questionsModal.style.display === 'block') closeModal();
+    });
+
+    function showSuccessMessage() {
+      successMessage.style.display = 'block';
+      setTimeout(() => successMessage.style.display = 'none', 5000);
+    }
+
+    function collectAnswers(isFull = false) {
+      const answers = {};
+      const selector = isFull ? 'input[data-full="true"]:checked' : 'input:not([data-full]):checked';
+      const checkedInputs = document.querySelectorAll(selector);
+
+      if (checkedInputs.length === 0) {
+        alert('لطفاً حداقل به یک سوال پاسخ دهید.');
+        return null;
+      }
+
+      checkedInputs.forEach(input => {
+        const questionId = input.name.replace('question_', '');
+        answers[questionId] = (input.value === "yes");
+      });
+
+      if (isFull) {
+        const total = allQuestions.length;
+        const answered = Object.keys(answers).length;
+        if (answered !== total) {
+          alert(`لطفاً به همه سوالات پاسخ دهید. (${answered} از ${total})`);
+          return null;
+        }
+      }
+
+      return answers;
+    }
+
+    function validateUserInfo() {
+      const firstName = (firstNameInput.value || '').trim();
+      const lastName  = (lastNameInput.value || '').trim();
+      const phoneRaw  = (phoneInput.value || '').trim();
+      const phone = phoneRaw.replace(/\s|-/g, '');
+
+      if (!firstName) { alert('لطفاً نام را وارد کنید.'); firstNameInput.focus(); return null; }
+      if (!lastName)  { alert('لطفاً نام خانوادگی را وارد کنید.'); lastNameInput.focus(); return null; }
+      if (!/^09\d{9}$/.test(phone)) { alert('شماره تماس معتبر نیست. نمونه: 09123456789'); phoneInput.focus(); return null; }
+
+      return { firstName, lastName, phone };
+    }
+
+    function submitAnswers(isFull = false) {
+      const answers = collectAnswers(isFull);
+      if (!answers) return;
+
+      let userInfo = null;
+      if (isFull) {
+        userInfo = validateUserInfo();
+        if (!userInfo) return;
+      }
+
+      const payload = { user: userInfo, answers };
+      console.log('Submitted payload:', payload);
+
+      setTimeout(() => {
+        showSuccessMessage();
+
+        if (isFull) {
+          closeModal();
+          firstNameInput.value = '';
+          lastNameInput.value = '';
+          phoneInput.value = '';
         }
 
-        // Handle orientation change
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                // Force reflow for certain elements on resize
-                slides.forEach(slide => {
-                    slide.style.transition = 'none';
-                    void slide.offsetWidth; // Trigger reflow
-                    slide.style.transition = '';
-                });
-            }, 250);
-        });
+        if (isFull) document.querySelectorAll('input[data-full="true"]').forEach(i => i.checked = false);
+        else document.querySelectorAll('input:not([data-full])').forEach(i => i.checked = false);
 
-        // Prevent zoom on double tap (for mobile)
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, { passive: false });
+      }, 400);
+    }
 
-        // Improve focus styles for accessibility
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                document.body.classList.add('keyboard-navigation');
-            }
-        });
+    submitQuestionsBtn.addEventListener('click', () => submitAnswers(false));
+    submitFullQuestionsBtn.addEventListener('click', () => submitAnswers(true));
 
-        document.addEventListener('click', () => {
-            document.body.classList.remove('keyboard-navigation');
-        });
+    const animateElements = document.querySelectorAll('.animate-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
 
-        // Add keyboard navigation styles
-        const keyboardStyles = document.createElement('style');
-        keyboardStyles.textContent = `
-            body.keyboard-navigation button:focus,
-            body.keyboard-navigation input:focus,
-            body.keyboard-navigation a:focus {
-                outline: 3px solid var(--primary-blue) !important;
-                outline-offset: 2px !important;
-            }
+    animateElements.forEach(element => {
+      element.style.animationPlayState = 'paused';
+      observer.observe(element);
+    });
+
+    // Ripple effect (mouse only)
+    const interactiveButtons = document.querySelectorAll('.interactive-btn, .psychology-btn, .slide-btn, .submit-btn, .nav-btn');
+    interactiveButtons.forEach(button => {
+      button.addEventListener('mousedown', function(e) {
+        if (isTouchDevice) return;
+
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.style.cssText = `
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.7);
+          transform: scale(0);
+          animation: ripple-animation 0.6s linear;
+          width: ${size}px;
+          height: ${size}px;
+          top: ${y}px;
+          left: ${x}px;
+          pointer-events: none;
+          z-index: 1;
         `;
-        document.head.appendChild(keyboardStyles);
-    </script>
+
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+          if (ripple.parentNode === this) this.removeChild(ripple);
+        }, 600);
+      });
+    });
+
+    const style = document.createElement('style');
+    style.textContent = `@keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }`;
+    document.head.appendChild(style);
+
+    // Prevent form submission on enter key in inputs
+    document.querySelectorAll('.field input').forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') e.preventDefault();
+      });
+    });
+
+    // Prevent zoom on double tap (mobile)
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) e.preventDefault();
+      lastTouchEnd = now;
+    }, { passive: false });
+
+    // keyboard focus style helper
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') document.body.classList.add('keyboard-navigation');
+    });
+    document.addEventListener('click', () => {
+      document.body.classList.remove('keyboard-navigation');
+    });
+
+    const keyboardStyles = document.createElement('style');
+    keyboardStyles.textContent = `
+      body.keyboard-navigation button:focus,
+      body.keyboard-navigation input:focus,
+      body.keyboard-navigation a:focus {
+        outline: 3px solid var(--primary-blue) !important;
+        outline-offset: 2px !important;
+      }
+    `;
+    document.head.appendChild(keyboardStyles);
+  </script>
 </body>
 </html>
