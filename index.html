@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" data-theme="light">
+    <script>
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+if(isIOS) document.documentElement.classList.add('ios');
+
+    </script>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -15,6 +20,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
   <style>
+        
+        
+.ios body.modal-open .video-placeholder video{ opacity:0; }
+
     :root {
       --primary-blue: #2563eb;
       --primary-purple: #7c3aed;
