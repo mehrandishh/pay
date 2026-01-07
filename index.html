@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" data-theme="light">
-    <script>
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-if(isIOS) document.documentElement.classList.add('ios');
-
-    </script>
 <head>
   <meta charset="UTF-8" />
+  <script>
+    (function () {
+      // تشخیص iPhone/iPad + iPadOS جدید (که خودش را Mac نشان می‌دهد)
+      var isIOS =
+        /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      if (isIOS) document.documentElement.classList.add('ios');
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>مرکز آموزشی آینده‌سازان - کلاس‌های رباتیک، برنامه‌نویسی، چرتکه و محاسبات آسان</title>
 
@@ -1967,7 +1972,11 @@ if(isIOS) document.documentElement.classList.add('ios');
     });
   });
 
-  mq.addEventListener?.('change', applyState);
+if (mq.addEventListener) {
+  mq.addEventListener('change', applyState);
+} else if (mq.addListener) {
+  mq.addListener(applyState); // برای iOS قدیمی
+}
   window.addEventListener('resize', applyState);
   applyState();
 })();
