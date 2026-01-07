@@ -7,11 +7,12 @@
       // تشخیص iPhone/iPad + iPadOS جدید (که خودش را Mac نشان می‌دهد)
       var isIOS =
         /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 3);
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
       if (isIOS) document.documentElement.classList.add('ios');
     })();
   </script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>مرکز آموزشی آینده‌سازان - کلاس‌های رباتیک، برنامه‌نویسی، چرتکه و محاسبات آسان</title>
 
@@ -25,9 +26,44 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
   <style>
-        
-        
-.ios body.modal-open .video-placeholder video{ opacity:0; }
+    /* ==================================================
+       ✅ iOS FIX: جلوگیری از ترک/پرش صفحه به خاطر ویدیو
+       - ویدیو در iOS اول autoplay نمی‌شود
+       - با Interaction/Viewport شروع می‌شود
+       - ارتفاع ثابت برای جلوگیری از layout shift
+       ================================================== */
+    .ios body.modal-open .video-placeholder video { opacity: 0; }
+
+    .video-placeholder {
+      position: relative;
+      /* aspect-ratio: 16 / 9; ارتفاع ثابت -> بدون پرش */
+      min-height: 200px;
+    }
+    .video-placeholder video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 1;
+      background: #111;
+    }
+    .video-cover {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .video-cover.hide { opacity: 0; }
 
     :root {
       --primary-blue: #2563eb;
@@ -309,8 +345,8 @@
     }
 
     .nav-btn {
-      width: 50px;
-      height: 50px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
@@ -586,6 +622,7 @@
       .video-container { padding: 18px; }
     }
 
+    /* 👇 این تعریف قبلی را نگه داشتیم، فقط بالا position/aspect-ratio اضافه شده */
     .video-placeholder {
       width: 100%;
       background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
@@ -1159,8 +1196,6 @@
     /* ==================================================
        ✅ FINAL RESPONSIVE FIXES (بدون تغییر استایل کلی)
        ================================================== */
-
-    /* 1) Theme toggle: شما id گذاشتی، ولی CSS روی کلاس بود */
     #themeToggle{
       position: fixed;
       top: max(20px, var(--safe-top));
@@ -1169,13 +1204,10 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      /* background: var(--bg-white); */
-      /* box-shadow: var(--shadow-lg); */
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      /* border: 1px solid var(--border-light); */
       transition: all var(--transition-normal);
       touch-action: manipulation;
       user-select: none;
@@ -1190,18 +1222,15 @@
     }
     #themeToggle:hover { transform: rotate(30deg); }
 
-    /* 2) margin های منفی: روی موبایل بهم می‌ریزه */
     @media (max-width: 768px){
       header.header{ margin-top: 0 !important; }
       section.talent-banner{ margin-top: 0 !important; }
     }
 
-    /* 3) height:70% توی inline روی موبایل مشکل میده */
     @media (max-width: 768px){
       .main-layout .event-section{ height: auto !important; }
     }
 
-    /* 4) event-image: height:80% + margin-top:-5% روی موبایل مشکل‌ساز */
     @media (max-width: 768px){
       .event-image{
         margin-top: 0 !important;
@@ -1212,7 +1241,6 @@
       }
     }
 
-    /* 5) عکس 43.png که با margin-top:-20% آمده روی موبایل امن‌تر */
     @media (max-width: 480px){
       .event-content img[alt="mehrzad"]{
         margin-top: 10px !important;
@@ -1221,88 +1249,70 @@
         display: block !important;
       }
     }
-    /* ==============================
-   ✅ Mobile Footer: Compact Accordion
-   فقط برای گوشی
-   ============================== */
-@media (max-width: 480px) {
-  .footer {
-    padding: 18px 0 14px !important;   /* فوتر کوتاه‌تر */
-    margin-top: 24px !important;
-  }
 
-  .footer-content {
-    grid-template-columns: 1fr !important;
-    gap: 10px !important;
-    margin-bottom: 14px !important;
-  }
+    @media (max-width: 480px) {
+      .footer {
+        padding: 18px 0 14px !important;
+        margin-top: 24px !important;
+      }
 
-  .footer-column {
-    border: 1px solid #334155;
-    border-radius: 14px;
-    padding: 10px 12px;
-    background: rgba(255,255,255,0.03);
-  }
+      .footer-content {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        margin-bottom: 14px !important;
+      }
 
-  /* تیترها کلیکی و جمع‌وجور */
-  .footer-column h4 {
-    margin: 0 !important;
-    padding: 8px 34px 8px 8px !important; /* جا برای آیکن */
-    cursor: pointer;
-    user-select: none;
-  }
+      .footer-column {
+        border: 1px solid #334155;
+        border-radius: 14px;
+        padding: 10px 12px;
+        background: rgba(255,255,255,0.03);
+      }
 
-  /* خط زیر تیتر رو تو موبایل حذف کن تا جمع‌وجورتر شه */
-  .footer-column h4::after {
-    display: none !important;
-  }
+      .footer-column h4 {
+        margin: 0 !important;
+        padding: 8px 34px 8px 8px !important;
+        cursor: pointer;
+        user-select: none;
+      }
 
-  /* آیکن فلش (FontAwesome) کنار تیتر */
-  .footer-column.is-collapsible h4 {
-    position: relative;
-  }
-  .footer-column.is-collapsible h4::before {
-    content: "\f078"; /* chevron-down */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    transition: transform 0.2s ease;
-  }
-  .footer-column.is-open h4::before {
-    transform: translateY(-50%) rotate(180deg);
-  }
+      .footer-column h4::after { display: none !important; }
 
-  /* لیست‌ها در موبایل به صورت پیش‌فرض بسته */
-  .footer-column.is-collapsible .footer-links {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.25s ease;
-    margin-top: 0 !important;
-  }
+      .footer-column.is-collapsible h4 { position: relative; }
+      .footer-column.is-collapsible h4::before {
+        content: "\f078";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        transition: transform 0.2s ease;
+      }
+      .footer-column.is-open h4::before {
+        transform: translateY(-50%) rotate(180deg);
+      }
 
-  .footer-column.is-open .footer-links {
-    margin-top: 10px !important;
-  }
+      .footer-column.is-collapsible .footer-links {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease;
+        margin-top: 0 !important;
+      }
 
-  /* فاصله آیتم‌ها کمتر */
-  .footer-links li {
-    margin-bottom: 8px !important;
-  }
+      .footer-column.is-open .footer-links {
+        margin-top: 10px !important;
+      }
 
-  .footer-links a {
-    padding: 2px 0 !important;
-  }
+      .footer-links li { margin-bottom: 8px !important; }
+      .footer-links a { padding: 2px 0 !important; }
 
-  .footer-bottom {
-    padding-top: 14px !important;
-    font-size: 0.9rem !important;
-  }
-}
-
+      .footer-bottom {
+        padding-top: 14px !important;
+        font-size: 0.9rem !important;
+      }
+    }
   </style>
 </head>
 
@@ -1402,12 +1412,24 @@
     <!-- Video and Questions Section -->
     <section class="video-questions-section animate-in">
       <div class="video-container">
-        <div class="video-placeholder">
-          <video style="width:100%; height:100%; object-fit:cover;" autoplay muted loop playsinline>
+        <!-- ✅ تغییر مهم: ویدیو بدون autoplay در HTML (برای iOS) -->
+        <div class="video-placeholder" id="videoBox">
+          <div class="video-cover" id="videoCover">
+            <i class="fas fa-play"></i> ویدیو پس از تعامل/اسکرول اجرا می‌شود
+          </div>
+
+          <video id="introVideo"
+                 muted
+                 playsinline
+                 webkit-playsinline
+                 loop
+                 preload="metadata"
+                 poster="12.png">
             <source src="a.mp4" type="video/mp4">
             مرورگر شما از ویدیو پشتیبانی نمی‌کند.
           </video>
         </div>
+
         <div class="video-info">
           <h3>آشنایی با محیط آموزشی ما</h3>
           <p>در این ویدیو با فضای آموزشی، امکانات، اساتید و روش‌های تدریس ما آشنا می‌شوید.</p>
@@ -1635,6 +1657,68 @@
     slider.addEventListener('mouseenter', stopSlider);
     slider.addEventListener('mouseleave', startSlider);
 
+    /* ==================================================
+       ✅ iOS SAFE VIDEO LOADER (بدون ترک/پرش)
+       - iOS: play بعد از Interaction یا وقتی وارد viewport شد
+       - غیر iOS: autoplay مثل قبل
+       ================================================== */
+    const introVideo = document.getElementById('introVideo');
+    const videoCover = document.getElementById('videoCover');
+    const videoBox   = document.getElementById('videoBox');
+    const isIOS = document.documentElement.classList.contains('ios');
+    let videoStarted = false;
+
+    function tryPlayVideo() {
+      if (!introVideo) return;
+      return introVideo.play().then(() => {
+        if (videoCover) videoCover.classList.add('hide');
+      }).catch(() => {
+        // اگر اجازه نداد، مشکلی نیست (بدون پرش)
+      });
+    }
+
+    function startVideoOnce() {
+      if (videoStarted) return;
+      videoStarted = true;
+
+      requestAnimationFrame(() => {
+        tryPlayVideo();
+      });
+
+      window.removeEventListener('touchstart', startVideoOnce, { passive: true });
+      window.removeEventListener('scroll', startVideoOnce, { passive: true });
+      window.removeEventListener('click', startVideoOnce);
+    }
+
+    (function initVideoBehavior(){
+      if (!introVideo) return;
+
+      if (!isIOS) {
+        // دسکتاپ/اندروید: autoplay مثل قبل
+        introVideo.autoplay = true;
+        introVideo.setAttribute('autoplay', 'autoplay');
+        requestAnimationFrame(() => { tryPlayVideo(); });
+        return;
+      }
+
+      // iOS: شروع پخش با تعامل یا ورود به دید
+      window.addEventListener('touchstart', startVideoOnce, { passive: true });
+      window.addEventListener('scroll', startVideoOnce, { passive: true });
+      window.addEventListener('click', startVideoOnce);
+
+      if ('IntersectionObserver' in window && videoBox) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startVideoOnce();
+              io.disconnect();
+            }
+          });
+        }, { threshold: 0.35 });
+        io.observe(videoBox);
+      }
+    })();
+
     /***********************
      * Questions (30 items) - YES/NO
      ***********************/
@@ -1731,6 +1815,15 @@
       questionsModal.style.display = 'block';
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
+
+      // ✅ برای iOS: کلاس modal-open فعال می‌شود (CSS بالا ویدیو را safe می‌کند)
+      document.body.classList.add('modal-open');
+
+      // ✅ ویدیو هنگام باز شدن مودال pause (جلوگیری از پرش/رندر مجدد)
+      if (introVideo) {
+        try { introVideo.pause(); } catch(e) {}
+      }
+
       setTimeout(() => { questionsModal.scrollTop = 0; }, 100);
     }
 
@@ -1738,6 +1831,13 @@
       questionsModal.style.display = 'none';
       document.body.style.overflow = 'auto';
       document.documentElement.style.overflow = 'auto';
+
+      document.body.classList.remove('modal-open');
+
+      // ✅ بعد از بستن مودال: اگر قبلا شروع شده بود، دوباره تلاش به play
+      if (introVideo && videoStarted) {
+        setTimeout(() => { tryPlayVideo(); }, 150);
+      }
     }
 
     showMoreBtn.addEventListener('click', openModal);
@@ -1918,70 +2018,66 @@
     `;
     document.head.appendChild(keyboardStyles);
 
-
-
     /* ==============================
-   ✅ Mobile Footer Accordion (only on phone)
-   ============================== */
-(function footerAccordionMobile(){
-  const mq = window.matchMedia('(max-width: 480px)');
-  const columns = document.querySelectorAll('.footer .footer-column');
+       ✅ Mobile Footer Accordion (only on phone)
+       ============================== */
+    (function footerAccordionMobile(){
+      const mq = window.matchMedia('(max-width: 480px)');
+      const columns = document.querySelectorAll('.footer .footer-column');
 
-  function applyState(){
-    const isMobile = mq.matches;
+      function applyState(){
+        const isMobile = mq.matches;
 
-    columns.forEach(col => {
-      const title = col.querySelector('h4');
-      const list  = col.querySelector('.footer-links');
-      if(!title || !list) return;
+        columns.forEach(col => {
+          const title = col.querySelector('h4');
+          const list  = col.querySelector('.footer-links');
+          if(!title || !list) return;
 
-      if(isMobile){
-        col.classList.add('is-collapsible');
+          if(isMobile){
+            col.classList.add('is-collapsible');
 
-        // فقط بار اول ببندش (اگر قبلاً باز/بسته نشده)
-        if(!col.dataset.init){
-          col.classList.remove('is-open');
-          list.style.maxHeight = '0px';
-          col.dataset.init = '1';
-        }
-      } else {
-        // دسکتاپ/تبلت: همه چیز عادی و باز
-        col.classList.remove('is-collapsible', 'is-open');
-        list.style.maxHeight = '';
-        col.dataset.init = '';
+            if(!col.dataset.init){
+              col.classList.remove('is-open');
+              list.style.maxHeight = '0px';
+              col.dataset.init = '1';
+            }
+          } else {
+            col.classList.remove('is-collapsible', 'is-open');
+            list.style.maxHeight = '';
+            col.dataset.init = '';
+          }
+        });
       }
-    });
-  }
 
-  // کلیک روی تیترها فقط در موبایل
-  columns.forEach(col => {
-    const title = col.querySelector('h4');
-    const list  = col.querySelector('.footer-links');
-    if(!title || !list) return;
+      columns.forEach(col => {
+        const title = col.querySelector('h4');
+        const list  = col.querySelector('.footer-links');
+        if(!title || !list) return;
 
-    title.addEventListener('click', () => {
-      if(!mq.matches) return;
+        title.addEventListener('click', () => {
+          if(!mq.matches) return;
 
-      const willOpen = !col.classList.contains('is-open');
+          const willOpen = !col.classList.contains('is-open');
 
-      // اگر خواستی فقط یکی باز باشه، این 2 خط رو فعال کن:
-      columns.forEach(c => { if(c !== col) { c.classList.remove('is-open'); const l=c.querySelector('.footer-links'); if(l) l.style.maxHeight='0px'; } });
+          columns.forEach(c => {
+            if(c !== col) {
+              c.classList.remove('is-open');
+              const l = c.querySelector('.footer-links');
+              if(l) l.style.maxHeight = '0px';
+            }
+          });
 
-      col.classList.toggle('is-open', willOpen);
-      list.style.maxHeight = willOpen ? (list.scrollHeight + 'px') : '0px';
-    });
-  });
+          col.classList.toggle('is-open', willOpen);
+          list.style.maxHeight = willOpen ? (list.scrollHeight + 'px') : '0px';
+        });
+      });
 
-if (mq.addEventListener) {
-  mq.addEventListener('change', applyState);
-} else if (mq.addListener) {
-  mq.addListener(applyState); // برای iOS قدیمی
-}
-  window.addEventListener('resize', applyState);
-  applyState();
-})();
+      if (mq.addEventListener) mq.addEventListener('change', applyState);
+      else if (mq.addListener) mq.addListener(applyState);
 
-
+      window.addEventListener('resize', applyState);
+      applyState();
+    })();
   </script>
 </body>
 </html>
