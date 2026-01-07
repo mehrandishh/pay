@@ -7,7 +7,7 @@
       // تشخیص iPhone/iPad + iPadOS جدید (که خودش را Mac نشان می‌دهد)
       var isIOS =
         /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 3);
 
       if (isIOS) document.documentElement.classList.add('ios');
     })();
