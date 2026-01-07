@@ -1207,6 +1207,88 @@
         display: block !important;
       }
     }
+    /* ==============================
+   ✅ Mobile Footer: Compact Accordion
+   فقط برای گوشی
+   ============================== */
+@media (max-width: 480px) {
+  .footer {
+    padding: 18px 0 14px !important;   /* فوتر کوتاه‌تر */
+    margin-top: 24px !important;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .footer-column {
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.03);
+  }
+
+  /* تیترها کلیکی و جمع‌وجور */
+  .footer-column h4 {
+    margin: 0 !important;
+    padding: 8px 34px 8px 8px !important; /* جا برای آیکن */
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* خط زیر تیتر رو تو موبایل حذف کن تا جمع‌وجورتر شه */
+  .footer-column h4::after {
+    display: none !important;
+  }
+
+  /* آیکن فلش (FontAwesome) کنار تیتر */
+  .footer-column.is-collapsible h4 {
+    position: relative;
+  }
+  .footer-column.is-collapsible h4::before {
+    content: "\f078"; /* chevron-down */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    transition: transform 0.2s ease;
+  }
+  .footer-column.is-open h4::before {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  /* لیست‌ها در موبایل به صورت پیش‌فرض بسته */
+  .footer-column.is-collapsible .footer-links {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    margin-top: 0 !important;
+  }
+
+  .footer-column.is-open .footer-links {
+    margin-top: 10px !important;
+  }
+
+  /* فاصله آیتم‌ها کمتر */
+  .footer-links li {
+    margin-bottom: 8px !important;
+  }
+
+  .footer-links a {
+    padding: 2px 0 !important;
+  }
+
+  .footer-bottom {
+    padding-top: 14px !important;
+    font-size: 0.9rem !important;
+  }
+}
+
   </style>
 </head>
 
@@ -1821,6 +1903,67 @@
       }
     `;
     document.head.appendChild(keyboardStyles);
+
+
+
+    /* ==============================
+   ✅ Mobile Footer Accordion (only on phone)
+   ============================== */
+(function footerAccordionMobile(){
+  const mq = window.matchMedia('(max-width: 480px)');
+  const columns = document.querySelectorAll('.footer .footer-column');
+
+  function applyState(){
+    const isMobile = mq.matches;
+
+    columns.forEach(col => {
+      const title = col.querySelector('h4');
+      const list  = col.querySelector('.footer-links');
+      if(!title || !list) return;
+
+      if(isMobile){
+        col.classList.add('is-collapsible');
+
+        // فقط بار اول ببندش (اگر قبلاً باز/بسته نشده)
+        if(!col.dataset.init){
+          col.classList.remove('is-open');
+          list.style.maxHeight = '0px';
+          col.dataset.init = '1';
+        }
+      } else {
+        // دسکتاپ/تبلت: همه چیز عادی و باز
+        col.classList.remove('is-collapsible', 'is-open');
+        list.style.maxHeight = '';
+        col.dataset.init = '';
+      }
+    });
+  }
+
+  // کلیک روی تیترها فقط در موبایل
+  columns.forEach(col => {
+    const title = col.querySelector('h4');
+    const list  = col.querySelector('.footer-links');
+    if(!title || !list) return;
+
+    title.addEventListener('click', () => {
+      if(!mq.matches) return;
+
+      const willOpen = !col.classList.contains('is-open');
+
+      // اگر خواستی فقط یکی باز باشه، این 2 خط رو فعال کن:
+      columns.forEach(c => { if(c !== col) { c.classList.remove('is-open'); const l=c.querySelector('.footer-links'); if(l) l.style.maxHeight='0px'; } });
+
+      col.classList.toggle('is-open', willOpen);
+      list.style.maxHeight = willOpen ? (list.scrollHeight + 'px') : '0px';
+    });
+  });
+
+  mq.addEventListener?.('change', applyState);
+  window.addEventListener('resize', applyState);
+  applyState();
+})();
+
+
   </script>
 </body>
 </html>
